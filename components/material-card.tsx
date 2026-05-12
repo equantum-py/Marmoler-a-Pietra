@@ -1,23 +1,64 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import type { Material } from '@/types/content';
 
-export function MaterialCard({ material }: { material: Material }) {
+type MaterialCardProps = {
+  material: {
+    slug: string;
+    name: string;
+    category: string;
+    images?: string[];
+    image?: string;
+    shortDescription?: string;
+  };
+  className?: string;
+};
+
+export function MaterialCard({ material, className = '' }: MaterialCardProps) {
+  const image = material.images?.[0] || material.image || '';
+
   return (
-    <article className="product-card overflow-hidden rounded-md">
-      <Link href={`/materiales/${material.slug}`} className="group block">
-        <div className="relative aspect-[1.8/1] bg-pietra-border">
-          <Image src={material.image} alt={material.name} fill className="object-cover transition duration-500 group-hover:scale-105" sizes="(min-width: 1024px) 25vw, 50vw" />
-          <span className="absolute left-3 top-3 rounded-sm bg-pietra-ink/70 px-2 py-1 text-[10px] font-extrabold uppercase tracking-wide text-white">{material.category}</span>
+    <article
+      className={`group overflow-hidden rounded-xl border border-pietra-border bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg ${className}`}
+    >
+      <Link
+        href={`/materiales/${material.slug}`}
+        className="block h-full focus:outline-none focus:ring-2 focus:ring-pietra-green"
+        aria-label={`Ver material ${material.name}`}
+      >
+        <div className="relative h-52 overflow-hidden bg-pietra-warm">
+          {image ? (
+            // Usamos img para no depender de dominios/config extra en Next Image.
+            <img
+              src={image}
+              alt={material.name}
+              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div className="h-full w-full bg-gradient-to-br from-pietra-border to-pietra-warm" />
+          )}
+
+          <span className="absolute left-3 top-3 rounded bg-pietra-black px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+            {material.category}
+          </span>
+        </div>
+
+        <div className="p-4 text-center">
+          <h3 className="text-base font-semibold text-pietra-black">
+            {material.name}
+          </h3>
+
+          {material.shortDescription ? (
+            <p className="mt-2 line-clamp-2 text-sm leading-6 text-pietra-muted">
+              {material.shortDescription}
+            </p>
+          ) : null}
+
+          <span className="mt-4 flex h-10 items-center justify-center rounded bg-pietra-green text-xs font-bold uppercase tracking-[0.12em] text-white transition group-hover:bg-pietra-greenMuted">
+            Ver material
+          </span>
         </div>
       </Link>
-      <div className="p-4 text-center">
-        <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.12em] text-pietra-brown">Superficie Pietra</p>
-        <h3 className="mb-3 min-h-10 text-sm font-extrabold text-pietra-ink md:text-base">{material.name}</h3>
-        <Link href={`/materiales/${material.slug}`} className="inline-flex min-h-9 w-full items-center justify-center rounded border border-pietra-green bg-white px-4 text-xs font-extrabold uppercase text-pietra-green transition hover:bg-pietra-green hover:text-white">
-          Ver material
-        </Link>
-      </div>
     </article>
   );
 }
+
+export default MaterialCard;
