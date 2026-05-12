@@ -1,23 +1,21 @@
-import { Gem, Ruler, ShieldCheck, Sparkles } from 'lucide-react';
+import { MessageCircle, Ruler, Settings, UsersRound } from 'lucide-react';
+import { benefits } from '@/data/site';
 
-const benefits = [
-  { icon: Gem, title: 'Materiales de primera', text: 'Granitos, mármoles, cuarzos y sinterizados seleccionados para alto valor percibido.' },
-  { icon: Ruler, title: 'Diseño a medida', text: 'Asesoramiento, medición y fabricación pensados para cada ambiente.' },
-  { icon: ShieldCheck, title: 'Instalación profesional', text: 'Terminaciones precisas, logística incluida y procesos cuidados.' },
-  { icon: Sparkles, title: 'Experiencia premium', text: 'Una compra consultiva por WhatsApp, simple, rápida y personalizada.' },
-];
+const icons = [UsersRound, Ruler, Settings, MessageCircle];
 
 export function Benefits() {
   return (
-    <section id="beneficios" className="border-y border-white/10 bg-pietra-black py-10">
-      <div className="luxe-container grid gap-4 md:grid-cols-4">
-        {benefits.map((item) => (
-          <div key={item.title} className="rounded-[1.6rem] border border-white/10 bg-white/[0.03] p-6 transition hover:-translate-y-1 hover:border-pietra-gold/30">
-            <item.icon className="mb-5 h-6 w-6 text-pietra-gold" />
-            <h3 className="font-display text-2xl text-pietra-cream">{item.title}</h3>
-            <p className="mt-3 text-sm leading-6 text-pietra-stone/70">{item.text}</p>
-          </div>
-        ))}
+    <section id="beneficios" className="bg-pietra-green py-5 text-white">
+      <div className="luxe-container grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {benefits.map((benefit, index) => {
+          const Icon = icons[index];
+          return (
+            <div key={benefit} className="flex items-center justify-center gap-3 text-center sm:justify-start">
+              <Icon className="h-8 w-8 shrink-0 text-white/92" />
+              <p className="max-w-[11rem] text-sm font-extrabold leading-tight">{benefit}</p>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

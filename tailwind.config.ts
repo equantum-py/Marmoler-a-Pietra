@@ -6,15 +6,15 @@ const config: Config = {
     extend: {
       colors: {
         pietra: {
-          black: '#050504',
-          graphite: '#151513',
-          charcoal: '#24231f',
-          stone: '#d8ccb7',
-          sand: '#b9aa8e',
-          cream: '#f4efe5',
-          warm: '#fffaf0',
-          olive: '#6f7356',
-          gold: '#c7a76a',
+          background: '#FAFAF9',
+          green: '#4A6356',
+          sage: '#719482',
+          brown: '#8B4828',
+          ink: '#1F1F1C',
+          muted: '#6F6A61',
+          border: '#E8E2D8',
+          cream: '#FFFDF8',
+          dark: '#1F1F1C',
         },
       },
       fontFamily: {
@@ -22,10 +22,11 @@ const config: Config = {
         sans: ['var(--font-sans)', 'sans-serif'],
       },
       boxShadow: {
-        glow: '0 25px 80px rgba(199, 167, 106, 0.12)',
+        card: '0 12px 32px rgba(31, 31, 28, 0.08)',
+        soft: '0 8px 24px rgba(74, 99, 86, 0.12)',
       },
       backgroundImage: {
-        'radial-luxe': 'radial-gradient(circle at top, rgba(199,167,106,.16), transparent 34%), radial-gradient(circle at 80% 20%, rgba(111,115,86,.16), transparent 28%)',
+        'pietra-soft': 'radial-gradient(circle at top left, rgba(113,148,130,.18), transparent 32rem), linear-gradient(180deg, #FAFAF9 0%, #FFFDF8 100%)',
       },
     },
   },

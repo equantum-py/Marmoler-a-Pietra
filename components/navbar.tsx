@@ -1,65 +1,70 @@
 'use client';
 
-import { Menu, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { ChevronDown, Menu, Search } from 'lucide-react';
+import { useState } from 'react';
 import { WhatsappLink } from '@/components/whatsapp-link';
 
-const links = [
-  { href: '#inicio', label: 'Inicio' },
-  { href: '#proyectos', label: 'Proyectos' },
-  { href: '#materiales', label: 'Materiales' },
-  { href: '#nosotros', label: 'Nosotros' },
-  { href: '#contacto', label: 'Contacto' },
-];
+const menuLinks = ['Home', 'Materiales', 'Ambientes', 'Proyectos', 'Contacto'];
 
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
-    <header
-      className={`fixed left-0 right-0 top-0 z-40 transition-all duration-500 ${
-        scrolled ? 'border-b border-white/10 bg-pietra-black/72 py-3 shadow-2xl backdrop-blur-2xl' : 'py-5'
-      }`}
-    >
-      <nav className="luxe-container flex items-center justify-between">
-        <a href="#inicio" className="group flex items-center gap-3" aria-label="Marmolería Pietra">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full border border-pietra-gold/40 font-display text-xl text-pietra-gold">P</span>
-          <span className="font-display text-2xl font-semibold tracking-[0.18em] text-pietra-cream">PIETRA</span>
-        </a>
-        <div className="hidden items-center gap-8 md:flex">
-          {links.map((link) => (
-            <a key={link.href} href={link.href} className="text-xs font-semibold uppercase tracking-[0.22em] text-pietra-stone/80 transition hover:text-pietra-gold">
-              {link.label}
-            </a>
-          ))}
-        </div>
-        <div className="hidden md:block">
-          <WhatsappLink message="Hola, quiero solicitar una cotización premium con Pietra.">WhatsApp</WhatsappLink>
-        </div>
-        <button className="rounded-full border border-white/15 p-3 text-pietra-cream md:hidden" onClick={() => setOpen((value) => !value)} aria-label="Abrir menú">
-          {open ? <X /> : <Menu />}
-        </button>
-      </nav>
-      {open ? (
-        <div className="mx-4 mt-4 rounded-[2rem] border border-white/10 bg-pietra-graphite/95 p-6 backdrop-blur-2xl md:hidden">
-          <div className="flex flex-col gap-4">
-            {links.map((link) => (
-              <a key={link.href} href={link.href} onClick={() => setOpen(false)} className="text-sm uppercase tracking-[0.24em] text-pietra-stone">
-                {link.label}
-              </a>
-            ))}
-            <WhatsappLink message="Hola, quiero cotizar con Marmolería Pietra." className="mt-2 w-full">Cotizar por WhatsApp</WhatsappLink>
+    <header className="sticky top-0 z-40 border-b border-pietra-border bg-pietra-background/95 backdrop-blur-xl">
+      <div className="bg-pietra-green text-white">
+        <div className="luxe-container flex min-h-8 items-center justify-between gap-4 text-[11px] font-semibold">
+          <p>Paraguay&nbsp;&nbsp; | &nbsp;&nbsp;Cotización por WhatsApp&nbsp;&nbsp; | &nbsp;&nbsp;Fabricación e instalación a medida</p>
+          <div className="hidden items-center gap-4 md:flex">
+            <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
+            <span>|</span>
+            <a href="#contacto">Contacto</a>
+            <span>|</span>
+            <a href="#beneficios">FAQs</a>
           </div>
         </div>
-      ) : null}
+      </div>
+
+      <div className="luxe-container grid gap-4 py-4 lg:grid-cols-[220px_1fr_auto] lg:items-center">
+        <div className="flex items-center justify-between gap-4">
+          <a href="#inicio" className="relative block h-16 w-48" aria-label="Marmolería Pietra">
+            <Image src="/logo-pietra.svg" alt="Marmolería Pietra" fill priority className="object-contain object-left" sizes="192px" />
+          </a>
+          <button className="rounded-md border border-pietra-border p-3 text-pietra-green lg:hidden" onClick={() => setOpen((value) => !value)} aria-label="Abrir menú">
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
+
+        <div className="hidden overflow-hidden rounded-md border border-pietra-border bg-white shadow-sm lg:grid lg:grid-cols-[1fr_220px_58px]">
+          <input className="min-h-12 bg-white px-5 text-sm text-pietra-ink outline-none placeholder:text-pietra-muted/70" placeholder="Buscar mármol, granito, cuarzo..." />
+          <button className="flex min-h-12 items-center justify-between border-l border-pietra-border px-5 text-sm text-pietra-muted">
+            Seleccionar categoría <ChevronDown className="h-4 w-4" />
+          </button>
+          <button className="flex items-center justify-center bg-pietra-green text-white transition hover:bg-pietra-sage" aria-label="Buscar materiales">
+            <Search className="h-5 w-5" />
+          </button>
+        </div>
+
+        <div className="hidden items-center gap-6 lg:flex">
+          <a href="#materiales" className="text-sm font-bold text-pietra-ink hover:text-pietra-green">Materiales</a>
+          <a href="#proyectos" className="text-sm font-bold text-pietra-ink hover:text-pietra-green">Proyectos</a>
+          <WhatsappLink message="Hola, quiero cotizar con Marmolería Pietra." className="min-h-10 rounded-lg px-5 py-2">WhatsApp</WhatsappLink>
+        </div>
+      </div>
+
+      <div className="border-t border-pietra-border bg-white/72">
+        <nav className="luxe-container flex min-h-11 items-center justify-between gap-5 overflow-x-auto text-xs font-extrabold uppercase tracking-[0.02em] text-pietra-ink no-scrollbar">
+          <a href="#categorias" className="flex min-h-11 shrink-0 items-center gap-2 bg-pietra-green px-5 text-white"><Menu className="h-4 w-4" /> Explorar categorías</a>
+          <div className={`${open ? 'flex' : 'hidden'} absolute left-4 right-4 top-[141px] z-50 flex-col gap-3 rounded-xl border border-pietra-border bg-white p-5 shadow-card lg:static lg:flex lg:flex-row lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none`}>
+            {menuLinks.map((link) => (
+              <a key={link} href={link === 'Home' ? '#inicio' : `#${link.toLowerCase()}`} onClick={() => setOpen(false)} className="whitespace-nowrap px-2 py-2 hover:text-pietra-green">
+                {link}
+              </a>
+            ))}
+          </div>
+          <a href="#contacto" className="ml-auto hidden shrink-0 items-center gap-2 text-pietra-ink hover:text-pietra-green md:flex">☞ Cotización rápida</a>
+        </nav>
+      </div>
     </header>
   );
 }

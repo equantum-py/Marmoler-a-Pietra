@@ -1,25 +1,23 @@
 import Image from 'next/image';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { SectionHeading } from '@/components/section-heading';
-import { whatsappUrl } from '@/lib/whatsapp';
 import { categories } from '@/data/site';
+import { whatsappUrl } from '@/lib/whatsapp';
 
 export function Categories() {
   return (
-    <section className="bg-pietra-black py-24 md:py-32">
+    <section id="ambientes" className="bg-pietra-background py-8 md:py-12">
       <div className="luxe-container">
-        <SectionHeading eyebrow="Ambientes" title="Varios ambientes, una sola sensación: lujo natural.">Cocinas, baños, quinchos y revestimientos diseñados para convertir la piedra en protagonista.</SectionHeading>
-        <div className="grid gap-4 md:grid-cols-3">
-          {categories.map((category, index) => (
-            <a key={category.name} href={whatsappUrl(category.message)} target="_blank" rel="noreferrer" className={`group relative min-h-[320px] overflow-hidden rounded-[2rem] border border-white/10 ${index === 0 ? 'md:col-span-2' : ''}`}>
-              <Image src={category.image} alt={category.name} fill className="object-cover transition duration-700 group-hover:scale-105" sizes="(min-width: 768px) 33vw, 100vw" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-7">
-                <p className="text-xs uppercase tracking-[0.35em] text-pietra-gold">Cotizar ambiente</p>
-                <div className="mt-3 flex items-end justify-between gap-5">
-                  <h3 className="font-display text-4xl text-pietra-cream">{category.name}</h3>
-                  <span className="rounded-full border border-white/20 p-3 text-pietra-cream transition group-hover:border-pietra-gold group-hover:bg-pietra-gold group-hover:text-pietra-black"><ArrowUpRight /></span>
-                </div>
+        <SectionHeading title="Inspiración real para decidir mejor.">Organizamos la experiencia según el espacio que querés transformar: cocina, baño, quincho o revestimiento.</SectionHeading>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {categories.map((category) => (
+            <a key={category.name} href={whatsappUrl(category.message)} target="_blank" rel="noreferrer" className="group relative min-h-[180px] overflow-hidden rounded-md border border-pietra-border bg-white shadow-card">
+              <Image src={category.image} alt={category.name} fill className="object-cover transition duration-500 group-hover:scale-105" sizes="(min-width: 1024px) 20vw, 50vw" />
+              <div className="absolute inset-0 bg-gradient-to-t from-pietra-ink/82 via-pietra-ink/25 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                <p className="mb-2 text-[10px] font-extrabold uppercase tracking-[0.18em] text-white/75">Ambiente</p>
+                <h3 className="text-lg font-extrabold uppercase leading-tight">{category.name}</h3>
+                <p className="mt-1 flex items-center gap-1 text-xs font-semibold">Ver opciones <ArrowRight className="h-3 w-3" /></p>
               </div>
             </a>
           ))}

@@ -1,6 +1,6 @@
-# Marmolería Pietra — Ecommerce premium sin carrito
+# Marmolería Pietra — Showroom ecommerce premium sin carrito
 
-Experiencia digital premium para Marmolería Pietra, enfocada en conversión por WhatsApp para proyectos de mármol, granito, cuarzo, revestimientos, mesadas y piedra traslúcida en Paraguay.
+Home comercial para Marmolería Pietra enfocada en cotización por WhatsApp. La experiencia funciona como showroom/ecommerce premium sin carrito, sin checkout y sin login.
 
 ## Stack
 
@@ -10,6 +10,14 @@ Experiencia digital premium para Marmolería Pietra, enfocada en conversión por
 - Framer Motion
 - Lucide React
 - SEO con Metadata API
+
+## Dirección visual
+
+- Fondo principal claro: `#FAFAF9`
+- Verde principal Pietra para topbar, CTAs y acentos: `#4A6356`
+- Verde apagado como apoyo visual: `#719482`
+- Marrón del logo como detalle de marca: `#8B4828`
+- Texto principal: `#1F1F1C`
 
 ## Comandos
 

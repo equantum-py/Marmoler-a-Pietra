@@ -30,7 +30,7 @@ export const materials: Material[] = [
   },
   {
     slug: 'gris-corumba',
-    name: 'Gris Corumba',
+    name: 'Gris Corumbá',
     category: 'Granito',
     image: '/images/catalogo/granito-gris-corumba.svg',
     description: 'Gris mineral versátil para ambientes modernos con estética limpia y atemporal.',
