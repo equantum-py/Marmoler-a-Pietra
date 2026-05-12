@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 120" role="img" aria-labelledby="title desc">
+<title id="title">Marmolería Pietra</title><desc id="desc">Logo de Marmolería Pietra con monograma MP.</desc>
+<circle cx="59" cy="60" r="44" fill="#FAFAF9" stroke="#719482" stroke-width="6"/>
+<path d="M27 78V35h11l21 24 21-24h12v43H78V55L61 75h-5L39 55v23H27Z" fill="#8B4828"/>
+<path d="M50 38h31c16 0 25 8 25 20 0 14-10 22-27 22H66V66h13c8 0 13-3 13-9 0-5-4-8-12-8H50V38Z" fill="#8B4828" opacity=".96"/>
+<text x="126" y="45" font-family="Manrope, Arial, sans-serif" font-size="25" fill="#4A6356">Marmolería</text>
+<text x="126" y="88" font-family="Georgia, serif" font-size="51" font-weight="700" fill="#8B4828">Pietra</text>
+</svg>
