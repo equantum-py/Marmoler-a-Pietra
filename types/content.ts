@@ -6,7 +6,18 @@ export type Material = {
   category: MaterialCategory;
   image: string;
   description: string;
+  shortDescription: string;
+  longDescription: string;
+  images: string[];
+  color: string;
+  finish: string;
+  recommendedUse: string;
+  resistance: string;
+  maintenance: string;
+  applications: string[];
   benefits: string[];
+  relatedSlugs: string[];
+  whatsappMessage: string;
   tone: 'oscuro' | 'claro' | 'cálido' | 'natural' | 'especial';
 };
 
