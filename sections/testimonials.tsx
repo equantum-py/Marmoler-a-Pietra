@@ -6,7 +6,7 @@ export function Testimonials() {
   return (
     <section className="bg-pietra-cream py-24 text-pietra-black md:py-32">
       <div className="luxe-container">
-        <SectionHeading dark eyebrow="Confianza" title="Clientes que buscaban algo más que una mesada.">La experiencia Pietra combina estética, técnica y acompañamiento cercano.</SectionHeading>
+        <SectionHeading eyebrow="Confianza" title="Clientes que buscaban algo más que una mesada.">La experiencia Pietra combina estética, técnica y acompañamiento cercano.</SectionHeading>
         <div className="grid gap-5 md:grid-cols-3">
           {testimonials.map((testimonial) => (
             <article key={testimonial.name} className="rounded-[2rem] border border-pietra-black/10 bg-white/65 p-7 shadow-sm">

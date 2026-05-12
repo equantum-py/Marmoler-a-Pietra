@@ -40,3 +40,26 @@ export const benefits = [
   'Fabricación profesional',
   'Cotización por WhatsApp',
 ];
+export const testimonials = [
+  {
+    name: 'Cliente residencial',
+    initials: 'CR',
+    city: 'Asunción',
+    comment:
+      'Nos ayudaron a elegir el material correcto para la cocina y el resultado quedó elegante, resistente y muy bien terminado.',
+  },
+  {
+    name: 'Proyecto de quincho',
+    initials: 'PQ',
+    city: 'Gran Asunción',
+    comment:
+      'La atención fue clara desde el primer contacto. Enviamos medidas por WhatsApp y recibimos orientación para cotizar mejor.',
+  },
+  {
+    name: 'Remodelación de baño',
+    initials: 'RB',
+    city: 'Paraguay',
+    comment:
+      'El revestimiento cambió completamente el espacio. La terminación se siente premium y el proceso fue muy ordenado.',
+  },
+];
