@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import { AdminActionButton } from '@/components/admin';
+import { LoginForm } from '@/components/admin/login-form';
+import { isSupabaseConfigured } from '@/lib/supabase/config';
 
 export default function AdminLoginPage() {
   return (
@@ -14,28 +15,10 @@ export default function AdminLoginPage() {
         <h1 className="mt-2 text-center font-display text-3xl font-semibold text-pietra-ink">
           Ingresar al CMS
         </h1>
-        {/* La autenticación real se conectará luego con Auth.js, Clerk o Supabase Auth. */}
-        <form className="mt-8 space-y-4">
-          <label className="block text-sm font-semibold text-pietra-ink">
-            Email
-            <input
-              type="email"
-              placeholder="admin@pietra.com"
-              className="mt-2 w-full rounded-2xl border border-pietra-border bg-pietra-cream px-4 py-3 text-sm outline-none focus:border-pietra-green"
-            />
-          </label>
-          <label className="block text-sm font-semibold text-pietra-ink">
-            Contraseña
-            <input
-              type="password"
-              placeholder="••••••••"
-              className="mt-2 w-full rounded-2xl border border-pietra-border bg-pietra-cream px-4 py-3 text-sm outline-none focus:border-pietra-green"
-            />
-          </label>
-          <div className="pt-2">
-            <AdminActionButton variant="primary">Ingresar</AdminActionButton>
-          </div>
-        </form>
+        <p className="mt-3 text-center text-sm leading-6 text-pietra-muted">
+          Supabase Auth protege /admin cuando las variables de entorno están configuradas.
+        </p>
+        <LoginForm fallbackMode={!isSupabaseConfigured} />
       </div>
     </section>
   );

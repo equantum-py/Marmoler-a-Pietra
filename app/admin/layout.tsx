@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { AdminSidebar, AdminTopbar } from '@/components/admin';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Panel Pietra | Administración',
   description:

@@ -21,6 +21,7 @@ const badgeStyles: Partial<Record<AdminStatus, string>> = {
   Noindex: 'border-red-200 bg-red-50 text-red-700',
   Pendiente: 'border-amber-200 bg-amber-50 text-amber-700',
   Inactivo: 'border-stone-200 bg-stone-100 text-stone-600',
+  Archivado: 'border-stone-300 bg-stone-100 text-stone-700',
 };
 
 export function AdminBadge({ status }: { status: AdminStatus | string }) {

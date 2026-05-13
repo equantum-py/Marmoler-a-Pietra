@@ -21,7 +21,8 @@ export type AdminStatus =
   | 'Falta description'
   | 'Noindex'
   | 'Pendiente'
-  | 'Inactivo';
+  | 'Inactivo'
+  | 'Archivado';
 
 export const dashboardStats = [
   {
