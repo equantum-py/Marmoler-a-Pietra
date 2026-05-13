@@ -59,3 +59,19 @@ img {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.admin-input {
+  margin-top: 0.5rem;
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid #e8e2d8;
+  background: #fffdf8;
+  padding: 0.75rem 1rem;
+  color: #1f1f1c;
+  outline: none;
+}
+
+.admin-input:focus {
+  border-color: #4a6356;
+  box-shadow: 0 0 0 3px rgba(74, 99, 86, 0.12);
+}
