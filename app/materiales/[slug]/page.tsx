@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { CheckCircle2, Grid2X2, Layers3, MessageCircle, Sparkles } from 'lucide-react';
+import { CheckCircle2, Grid2X2, MessageCircle, Sparkles } from 'lucide-react';
 import { FloatingWhatsapp } from '@/components/floating-whatsapp';
 import { MaterialCard } from '@/components/material-card';
 import { Navbar } from '@/components/navbar';
@@ -15,15 +16,47 @@ import {
 export const revalidate = 60;
 export const dynamicParams = true;
 
+
+type PublicMaterialView = {
+  slug: string;
+  name: string;
+  category: string;
+  shortDescription?: string;
+  short_description?: string;
+  longDescription?: string;
+  long_description?: string;
+  recommendedUse?: string;
+  recommended_use?: string;
+  whatsappMessage?: string;
+  whatsapp_message?: string;
+  seoTitle?: string;
+  seo_title?: string;
+  seoDescription?: string;
+  seo_description?: string;
+  relatedSlugs?: string[];
+  related_slugs?: string[];
+  mainImage?: string;
+  main_image?: string;
+  image?: string;
+  images?: string[];
+  gallery?: string[];
+  applications?: string[];
+  benefits?: string[];
+  color?: string;
+  finish?: string;
+  resistance?: string;
+  maintenance?: string;
+};
+
 type PageProps = {
-  params: Promise<{ slug: string }> | { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 async function resolveParams(params: PageProps['params']) {
-  return await params;
+  return params;
 }
 
-function getImages(material: Record<string, any>) {
+function getImages(material: PublicMaterialView) {
   const images = material.images || [];
   const gallery = material.gallery || [];
 
@@ -38,7 +71,7 @@ function getImages(material: Record<string, any>) {
   );
 }
 
-function getWhatsappMessage(material: Record<string, any>) {
+function getWhatsappMessage(material: PublicMaterialView) {
   return (
     material.whatsapp_message ||
     material.whatsappMessage ||
@@ -105,9 +138,9 @@ export default async function MaterialPage({ params }: PageProps) {
       <main className="bg-pietra-light text-pietra-black">
         <section className="border-b border-pietra-border bg-white">
           <div className="luxe-container py-5 text-sm text-pietra-muted">
-            <a href="/" className="hover:text-pietra-green">Inicio</a>
+            <Link href="/" className="hover:text-pietra-green">Inicio</Link>
             <span className="mx-2">/</span>
-            <a href="/#materiales" className="hover:text-pietra-green">Materiales</a>
+            <Link href="/#materiales" className="hover:text-pietra-green">Materiales</Link>
             <span className="mx-2">/</span>
             <span className="font-semibold text-pietra-black">{material.name}</span>
           </div>
@@ -283,7 +316,7 @@ export default async function MaterialPage({ params }: PageProps) {
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {relatedMaterials.map((related: any) => (
+              {relatedMaterials.map((related: PublicMaterialView) => (
                 <MaterialCard key={related.slug} material={related} />
               ))}
             </div>

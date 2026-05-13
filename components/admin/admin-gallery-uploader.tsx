@@ -53,7 +53,7 @@ export function AdminGalleryUploader({
     setErrorMessage('');
 
     try {
-      const uploaded = [];
+      const uploaded: string[] = [];
 
       for (const file of files) {
         const result = await uploadPietraMedia({ file, folder });

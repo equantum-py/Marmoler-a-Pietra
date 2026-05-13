@@ -1,6 +1,38 @@
-import { materials as localMaterials } from '@/data/materials';
+import { featuredMaterials as localFeaturedMaterials, materials as localMaterials } from '@/data/materials';
 
-type AnyMaterial = Record<string, any>;
+type MaterialLike = {
+  slug: string;
+  name: string;
+  category: string;
+  shortDescription?: string;
+  short_description?: string;
+  longDescription?: string;
+  long_description?: string;
+  recommendedUse?: string;
+  recommended_use?: string;
+  whatsappMessage?: string;
+  whatsapp_message?: string;
+  seoTitle?: string;
+  seo_title?: string;
+  seoDescription?: string;
+  seo_description?: string;
+  relatedSlugs?: string[];
+  related_slugs?: string[];
+  mainImage?: string;
+  main_image?: string;
+  image?: string;
+  images?: string[];
+  gallery?: string[];
+  applications?: string[];
+  benefits?: string[];
+  color?: string;
+  finish?: string;
+  resistance?: string;
+  maintenance?: string;
+  featured?: boolean;
+  status?: string;
+  sort_order?: number;
+};
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -9,17 +41,13 @@ function isSupabaseReady() {
   return Boolean(supabaseUrl && supabaseKey);
 }
 
-function normalizeRow(row: AnyMaterial): AnyMaterial {
+function normalizeRow(row: MaterialLike): MaterialLike {
   const mainImage = row.main_image || row.mainImage || row.image || row.images?.[0] || '';
   const gallery = Array.isArray(row.gallery) ? row.gallery : [];
-  const images = [mainImage, ...gallery].filter(Boolean);
+  const images = Array.from(new Set([mainImage, ...(row.images || []), ...gallery].filter(Boolean)));
 
   return {
     ...row,
-    slug: row.slug,
-    name: row.name,
-    category: row.category,
-
     shortDescription: row.short_description || row.shortDescription || '',
     short_description: row.short_description || row.shortDescription || '',
 
@@ -52,27 +80,35 @@ function normalizeRow(row: AnyMaterial): AnyMaterial {
   };
 }
 
-function localBySlug(slug: string) {
-  return localMaterials.find((material: AnyMaterial) => material.slug === slug);
+function normalizeRows(rows: MaterialLike[]) {
+  return rows.map(normalizeRow);
 }
 
-export async function getPublicMaterialBySlug(slug: string) {
+function getLocalPublishedMaterials() {
+  return normalizeRows(localMaterials as MaterialLike[]);
+}
+
+function getLocalFeaturedMaterials(limit = 8) {
+  const featured = localFeaturedMaterials?.length
+    ? (localFeaturedMaterials as MaterialLike[])
+    : (localMaterials as MaterialLike[]).slice(0, limit);
+
+  return normalizeRows(featured).slice(0, limit);
+}
+
+async function fetchSupabaseMaterials(query: string) {
   if (!isSupabaseReady()) {
-    const local = localBySlug(slug);
-    return local ? normalizeRow(local) : null;
+    return null;
   }
 
   try {
-    const response = await fetch(
-      `${supabaseUrl}/rest/v1/materials?slug=eq.${encodeURIComponent(slug)}&status=eq.published&select=*`,
-      {
-        headers: {
-          apikey: supabaseKey!,
-          Authorization: `Bearer ${supabaseKey}`,
-        },
-        next: { revalidate: 60 },
+    const response = await fetch(`${supabaseUrl}/rest/v1/${query}`, {
+      headers: {
+        apikey: supabaseKey!,
+        Authorization: `Bearer ${supabaseKey}`,
       },
-    );
+      next: { revalidate: 60 },
+    });
 
     if (!response.ok) {
       throw new Error(await response.text());
@@ -80,58 +116,66 @@ export async function getPublicMaterialBySlug(slug: string) {
 
     const rows = await response.json();
 
-    if (Array.isArray(rows) && rows[0]) {
-      return normalizeRow(rows[0]);
-    }
+    return Array.isArray(rows) ? normalizeRows(rows) : [];
   } catch {
-    const local = localBySlug(slug);
-    return local ? normalizeRow(local) : null;
+    return null;
+  }
+}
+
+export async function getPublicMaterials() {
+  const rows = await fetchSupabaseMaterials(
+    'materials?status=eq.published&select=*&order=sort_order.asc',
+  );
+
+  return rows?.length ? rows : getLocalPublishedMaterials();
+}
+
+export async function getPublicFeaturedMaterials(limit = 8) {
+  const rows = await fetchSupabaseMaterials(
+    `materials?status=eq.published&featured=eq.true&select=*&order=sort_order.asc&limit=${limit}`,
+  );
+
+  if (rows?.length) {
+    return rows;
   }
 
-  const local = localBySlug(slug);
+  return getLocalFeaturedMaterials(limit);
+}
+
+export async function getPublicMaterialBySlug(slug: string) {
+  const rows = await fetchSupabaseMaterials(
+    `materials?slug=eq.${encodeURIComponent(slug)}&status=eq.published&select=*&limit=1`,
+  );
+
+  if (rows?.[0]) {
+    return rows[0];
+  }
+
+  const local = (localMaterials as MaterialLike[]).find((material) => material.slug === slug);
+
   return local ? normalizeRow(local) : null;
 }
 
 export async function getPublicMaterialSlugs() {
-  const localSlugs = localMaterials.map((material: AnyMaterial) => material.slug);
+  const localSlugs = (localMaterials as MaterialLike[]).map((material) => material.slug);
 
-  if (!isSupabaseReady()) {
+  const rows = await fetchSupabaseMaterials('materials?status=eq.published&select=slug');
+
+  if (!rows?.length) {
     return localSlugs;
   }
 
-  try {
-    const response = await fetch(
-      `${supabaseUrl}/rest/v1/materials?status=eq.published&select=slug`,
-      {
-        headers: {
-          apikey: supabaseKey!,
-          Authorization: `Bearer ${supabaseKey}`,
-        },
-        next: { revalidate: 60 },
-      },
-    );
+  const supabaseSlugs = rows.map((row) => row.slug).filter(Boolean);
 
-    if (!response.ok) {
-      throw new Error(await response.text());
-    }
-
-    const rows = await response.json();
-    const supabaseSlugs = Array.isArray(rows)
-      ? rows.map((row) => row.slug).filter(Boolean)
-      : [];
-
-    return Array.from(new Set([...localSlugs, ...supabaseSlugs]));
-  } catch {
-    return localSlugs;
-  }
+  return Array.from(new Set([...localSlugs, ...supabaseSlugs]));
 }
 
-export async function getRelatedPublicMaterials(material: AnyMaterial) {
+export async function getRelatedPublicMaterials(material: MaterialLike) {
   const relatedSlugs = material.related_slugs || material.relatedSlugs || [];
 
   const related = await Promise.all(
-    relatedSlugs.slice(0, 4).map((slug: string) => getPublicMaterialBySlug(slug)),
+    relatedSlugs.slice(0, 4).map((slug) => getPublicMaterialBySlug(slug)),
   );
 
-  return related.filter(Boolean);
+  return related.filter(Boolean) as MaterialLike[];
 }

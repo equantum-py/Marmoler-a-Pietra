@@ -1,11 +1,13 @@
 import { MaterialCard } from '@/components/material-card';
 import { SectionHeading } from '@/components/section-heading';
 import { WhatsappLink } from '@/components/whatsapp-link';
-import { featuredMaterials, materials } from '@/data/materials';
+import { getPublicFeaturedMaterials, getPublicMaterials } from '@/lib/materials/public-materials';
 
-export function MaterialsShowroom() {
-  const highlightedMaterials = featuredMaterials.length > 0 ? featuredMaterials : materials.slice(0, 8);
-  const secondaryMaterials = materials
+export async function MaterialsShowroom() {
+  const highlightedMaterials = await getPublicFeaturedMaterials(8);
+  const allMaterials = await getPublicMaterials();
+
+  const secondaryMaterials = allMaterials
     .filter((material) => !highlightedMaterials.some((item) => item.slug === material.slug))
     .slice(0, 6);
 
@@ -38,10 +40,7 @@ export function MaterialsShowroom() {
           <div className="mt-16 grid gap-8 lg:grid-cols-[1.05fr_.95fr] lg:items-stretch">
             <div>
               <div className="mb-8">
-                <SectionHeading
-                  eyebrow="Más opciones"
-                  title="Colección de superficies."
-                >
+                <SectionHeading eyebrow="Más opciones" title="Colección de superficies.">
                   Más alternativas para cocinas, baños, quinchos, barras y revestimientos.
                 </SectionHeading>
               </div>
