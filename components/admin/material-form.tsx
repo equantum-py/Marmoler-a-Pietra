@@ -5,6 +5,7 @@ import { AdminActionButton } from '@/components/admin/admin-action-button';
 import type { AdminMaterialRecord } from '@/lib/supabase/materials';
 import type { MaterialFormState } from '@/lib/supabase/types';
 import type { MaterialCategory } from '@/types/content';
+import { AdminImageUploader } from '@/components/admin/admin-image-uploader';
 
 const categories: MaterialCategory[] = ['Granito', 'Cuarzo', 'Mármol', 'Sinterizado', 'Especial'];
 const statuses = ['Publicado', 'Borrador', 'Archivado'];
@@ -148,10 +149,12 @@ export function MaterialForm({
             className="admin-input"
           />
         </label>
-        <label className="text-sm font-semibold text-pietra-ink">
-          Imagen principal
-          <input name="main_image" defaultValue={material?.main_image} className="admin-input" />
-        </label>
+        <AdminImageUploader
+          label="Imagen principal"
+          name="main_image"
+          folder="materiales"
+          defaultValue={material?.main_image ?? ''}
+        />
         <label className="text-sm font-semibold text-pietra-ink">
           Galería
           <textarea
