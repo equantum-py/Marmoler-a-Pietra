@@ -8,19 +8,6 @@ import { getAdminAccessToken, requireAdminUser } from '@/lib/supabase/auth';
 import { materialPayloadFromForm } from '@/lib/supabase/materials';
 import type { MaterialFormState, SupabaseMaterialRow } from '@/lib/supabase/types';
 
-function normalizeMaterialStatus(value: FormDataEntryValue | null) {
-  const raw = String(value ?? 'draft').trim().toLowerCase();
-
-  if (['published', 'publicado', 'activo', 'activa'].includes(raw)) {
-    return 'published';
-  }
-
-  if (['archived', 'archivado', 'archivada', 'archivar'].includes(raw)) {
-    return 'archived';
-  }
-
-  return 'draft';
-}
 
 
 function validateMaterialPayload(payload: ReturnType<typeof materialPayloadFromForm>) {
