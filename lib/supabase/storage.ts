@@ -1,39 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-
-export const PIETRA_MEDIA_BUCKET = 'pietra-media';
-
 export type PietraMediaFolder = 'materiales' | 'proyectos' | 'banners' | 'ambientes';
-
-function getSupabaseBrowserClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl) {
-    throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL');
-  }
-
-  if (!supabaseKey) {
-    throw new Error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY');
-  }
-
-  return createClient(supabaseUrl, supabaseKey);
-}
-
-export function sanitizeFileName(fileName: string) {
-  return fileName
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-zA-Z0-9.-]/g, '-')
-    .replace(/-+/g, '-')
-    .toLowerCase();
-}
-
-export function createStoragePath(folder: PietraMediaFolder, fileName: string) {
-  const safeName = sanitizeFileName(fileName);
-  const timestamp = Date.now();
-
-  return `${folder}/${timestamp}-${safeName}`;
-}
 
 export async function uploadPietraMedia({
   file,
@@ -42,24 +7,23 @@ export async function uploadPietraMedia({
   file: File;
   folder?: PietraMediaFolder;
 }) {
-  const supabase = getSupabaseBrowserClient();
-  const path = createStoragePath(folder, file.name);
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('folder', folder);
 
-  const { error } = await supabase.storage
-    .from(PIETRA_MEDIA_BUCKET)
-    .upload(path, file, {
-      cacheControl: '3600',
-      upsert: false,
-    });
+  const response = await fetch('/admin/api/media/upload', {
+    method: 'POST',
+    body: formData,
+  });
 
-  if (error) {
-    throw new Error(error.message);
+  const payload = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    throw new Error(payload?.message || 'No se pudo subir la imagen.');
   }
 
-  const { data } = supabase.storage.from(PIETRA_MEDIA_BUCKET).getPublicUrl(path);
-
-  return {
-    path,
-    publicUrl: data.publicUrl,
+  return payload as {
+    path: string;
+    publicUrl: string;
   };
 }

@@ -6,9 +6,10 @@ import type { AdminMaterialRecord } from '@/lib/supabase/materials';
 import type { MaterialFormState } from '@/lib/supabase/types';
 import type { MaterialCategory } from '@/types/content';
 import { AdminImageUploader } from '@/components/admin/admin-image-uploader';
+import { AdminGalleryUploader } from '@/components/admin/admin-gallery-uploader';
 
 const categories: MaterialCategory[] = ['Granito', 'Cuarzo', 'Mármol', 'Sinterizado', 'Especial'];
-const statuses = ['Publicado', 'Borrador', 'Archivado'];
+const statuses = ['published', 'draft', 'archived'];
 const initialState: MaterialFormState = { ok: true, message: '' };
 
 type MaterialFormProps = {
@@ -155,24 +156,12 @@ export function MaterialForm({
           folder="materiales"
           defaultValue={material?.main_image ?? ''}
         />
-        <label className="text-sm font-semibold text-pietra-ink">
-          Galería
-          <textarea
-            name="gallery"
-            defaultValue={listValue(material?.gallery)}
-            rows={3}
-            className="admin-input"
-          />
-        </label>
-        <label className="text-sm font-semibold text-pietra-ink">
-          Materiales relacionados
-          <textarea
-            name="related_slugs"
-            defaultValue={listValue(material?.related_slugs)}
-            rows={3}
-            className="admin-input"
-          />
-        </label>
+        <AdminGalleryUploader
+          label="Galería de imágenes"
+          name="gallery"
+          folder="materiales"
+          defaultValue={material?.gallery ?? []}
+        />
         <label className="text-sm font-semibold text-pietra-ink">
           Mensaje personalizado de WhatsApp
           <textarea
@@ -189,7 +178,7 @@ export function MaterialForm({
           Estado
           <select
             name="status"
-            defaultValue={material?.status ?? 'Borrador'}
+            defaultValue={material?.status ?? 'draft'}
             className="admin-input"
           >
             {statuses.map((status) => (
