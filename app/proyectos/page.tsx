@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, MessageCircle } from 'lucide-react';
 import { FloatingWhatsapp } from '@/components/floating-whatsapp';
 import { Navbar } from '@/components/navbar';
+import { ProjectWorkGallery } from '@/components/project-work-gallery';
 import { Footer } from '@/sections/footer';
-import { projectCategories, projectWorks } from '@/data/project-works';
+import { projectWorks } from '@/data/project-works';
 import { whatsappUrl } from '@/lib/whatsapp';
 
 export const metadata: Metadata = {
@@ -15,6 +15,10 @@ export const metadata: Metadata = {
 };
 
 export default function ProyectosPage() {
+  const cocinaCount = projectWorks.filter((project) => project.category === 'Cocinas').length;
+  const banoCount = projectWorks.filter((project) => project.category === 'Baños').length;
+  const quinchoCount = projectWorks.filter((project) => project.category === 'Quinchos').length;
+
   return (
     <>
       <Navbar />
@@ -39,12 +43,12 @@ export default function ProyectosPage() {
             Volver al inicio
           </Link>
 
-          <div className="grid gap-6 md:grid-cols-[1fr_.75fr] md:items-end">
+          <div className="grid gap-8 md:grid-cols-[1fr_.75fr] md:items-end">
             <div>
               <p className="text-xs font-extrabold uppercase tracking-[0.28em] text-pietra-brown">
                 Portfolio Pietra
               </p>
-              <h1 className="mt-3 max-w-3xl font-display text-5xl font-semibold leading-none text-pietra-black md:text-6xl">
+              <h1 className="mt-3 max-w-4xl font-display text-5xl font-semibold leading-none text-pietra-black md:text-6xl">
                 Trabajos realizados en cocinas, baños y quinchos.
               </h1>
             </div>
@@ -53,69 +57,31 @@ export default function ProyectosPage() {
               Una selección de proyectos reales para visualizar terminaciones, aplicaciones y estilos posibles antes de cotizar tu superficie.
             </p>
           </div>
+
+          <div className="mt-10 grid gap-4 md:grid-cols-4">
+            <div className="rounded-2xl border border-pietra-border bg-white p-5 shadow-sm">
+              <p className="font-display text-4xl font-semibold">{projectWorks.length}</p>
+              <p className="mt-1 text-sm font-bold text-pietra-muted">Trabajos cargados</p>
+            </div>
+
+            <div className="rounded-2xl border border-pietra-border bg-white p-5 shadow-sm">
+              <p className="font-display text-4xl font-semibold">{cocinaCount}</p>
+              <p className="mt-1 text-sm font-bold text-pietra-muted">Cocinas</p>
+            </div>
+
+            <div className="rounded-2xl border border-pietra-border bg-white p-5 shadow-sm">
+              <p className="font-display text-4xl font-semibold">{banoCount}</p>
+              <p className="mt-1 text-sm font-bold text-pietra-muted">Baños</p>
+            </div>
+
+            <div className="rounded-2xl border border-pietra-border bg-white p-5 shadow-sm">
+              <p className="font-display text-4xl font-semibold">{quinchoCount}</p>
+              <p className="mt-1 text-sm font-bold text-pietra-muted">Quinchos</p>
+            </div>
+          </div>
         </section>
 
-        {projectCategories.map((category) => {
-          const projects = projectWorks.filter((project) => project.category === category);
-
-          return (
-            <section key={category} className="luxe-container pb-16">
-              <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-                <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.28em] text-pietra-brown">
-                    {category}
-                  </p>
-                  <h2 className="mt-2 font-display text-4xl font-semibold">
-                    Proyectos de {category.toLowerCase()}.
-                  </h2>
-                </div>
-
-                <a
-                  href={whatsappUrl(`Hola Pietra, quiero cotizar un proyecto de ${category.toLowerCase()}.`)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-pietra-green px-5 text-sm font-bold text-white transition hover:bg-pietra-sage"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  Cotizar {category.toLowerCase()}
-                </a>
-              </div>
-
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {projects.map((project) => (
-                  <article
-                    key={project.id}
-                    className="overflow-hidden rounded-2xl border border-pietra-border bg-white shadow-sm"
-                  >
-                    <div className="relative aspect-[4/3] overflow-hidden bg-pietra-warm">
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        className="object-cover transition duration-500 hover:scale-105"
-                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      />
-                    </div>
-
-                    <div className="p-5">
-                      <span className="rounded-full bg-pietra-light px-3 py-1 text-xs font-bold text-pietra-green">
-                        {project.category}
-                      </span>
-
-                      <h3 className="mt-4 font-display text-2xl font-semibold text-pietra-black">
-                        {project.title}
-                      </h3>
-
-                      <p className="mt-3 text-sm leading-7 text-pietra-muted">
-                        {project.description}
-                      </p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
-          );
-        })}
+        <ProjectWorkGallery />
 
         <section className="luxe-container pb-16">
           <div className="rounded-[2rem] bg-[#1F1F1C] p-8 text-white md:p-10">
