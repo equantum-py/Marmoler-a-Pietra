@@ -10,7 +10,7 @@ const menuLinks = [
   { label: 'Home', href: '/#inicio' },
   { label: 'Materiales', href: '/#materiales' },
   { label: 'Ambientes', href: '/#categorias' },
-  { label: 'Proyectos', href: '/#proyectos' },
+  { label: 'Proyectos', href: '/proyectos' },
   { label: 'Contacto', href: '/#contacto' },
 ];
 
@@ -148,7 +148,7 @@ export function Navbar() {
           <Link href="/#materiales" className="text-sm font-bold text-pietra-ink hover:text-pietra-green">
             Materiales
           </Link>
-          <Link href="/#proyectos" className="text-sm font-bold text-pietra-ink hover:text-pietra-green">
+          <Link href="/proyectos" className="text-sm font-bold text-pietra-ink hover:text-pietra-green">
             Proyectos
           </Link>
           <WhatsappLink message="Hola, quiero cotizar con Marmolería Pietra." className="px-5 py-3">

@@ -5,7 +5,6 @@ import { Categories } from '@/sections/categories';
 import { Footer } from '@/sections/footer';
 import { Hero } from '@/sections/hero';
 import { MaterialsShowroom } from '@/sections/materials-showroom';
-import { Projects } from '@/sections/projects';
 import { Promotion } from '@/sections/promotion';
 
 export default function Home() {
@@ -17,7 +16,6 @@ export default function Home() {
         <Categories />
         <MaterialsShowroom />
         <Promotion />
-        <Projects />
         <Benefits />
       </main>
       <Footer />
