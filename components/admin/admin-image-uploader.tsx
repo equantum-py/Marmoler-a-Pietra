@@ -8,6 +8,8 @@ type AdminImageUploaderProps = {
   name: string;
   folder?: PietraMediaFolder;
   defaultValue?: string;
+  previewFit?: 'cover' | 'contain';
+  helperText?: string;
 };
 
 export function AdminImageUploader({
@@ -15,6 +17,8 @@ export function AdminImageUploader({
   name,
   folder = 'materiales',
   defaultValue = '',
+  previewFit = 'cover',
+  helperText,
 }: AdminImageUploaderProps) {
   const [url, setUrl] = useState(defaultValue);
   const [isUploading, setIsUploading] = useState(false);
@@ -38,17 +42,22 @@ export function AdminImageUploader({
     }
   }
 
+  const imageFitClass = previewFit === 'contain' ? 'object-contain p-4' : 'object-cover';
+
   return (
     <div className="rounded-[1.25rem] border border-pietra-border bg-white/70 p-4">
       <label className="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-pietra-brown">
         {label}
       </label>
 
+      {helperText ? <p className="mb-4 text-sm leading-6 text-pietra-muted">{helperText}</p> : null}
+
       <input type="hidden" name={name} value={url} />
 
       {url ? (
-        <div className="mb-4 overflow-hidden rounded-2xl border border-pietra-border bg-pietra-warm">
-          <img src={url} alt={label} className="h-48 w-full object-cover" />
+        <div className="mb-4 flex h-48 items-center justify-center overflow-hidden rounded-2xl border border-pietra-border bg-pietra-warm">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={url} alt={label} className={`h-full w-full ${imageFitClass}`} />
         </div>
       ) : (
         <div className="mb-4 flex h-48 items-center justify-center rounded-2xl border border-dashed border-pietra-border bg-pietra-warm text-sm text-pietra-muted">
@@ -63,17 +72,11 @@ export function AdminImageUploader({
         className="block w-full rounded-full border border-pietra-border bg-white px-4 py-3 text-sm"
       />
 
-      {isUploading ? (
-        <p className="mt-2 text-sm text-pietra-green">Subiendo imagen...</p>
-      ) : null}
+      {isUploading ? <p className="mt-2 text-sm text-pietra-green">Subiendo imagen...</p> : null}
 
-      {errorMessage ? (
-        <p className="mt-2 text-sm text-red-600">{errorMessage}</p>
-      ) : null}
+      {errorMessage ? <p className="mt-2 text-sm text-red-600">{errorMessage}</p> : null}
 
-      {url ? (
-        <p className="mt-2 break-all text-xs text-pietra-muted">{url}</p>
-      ) : null}
+      {url ? <p className="mt-2 break-all text-xs text-pietra-muted">{url}</p> : null}
     </div>
   );
 }

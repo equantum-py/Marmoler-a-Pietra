@@ -1,4 +1,4 @@
-export type PietraMediaFolder = 'materiales' | 'proyectos' | 'banners' | 'ambientes';
+export type PietraMediaFolder = 'materiales' | 'proyectos' | 'banners' | 'ambientes' | 'logos' | 'logos';
 
 export async function uploadPietraMedia({
   file,

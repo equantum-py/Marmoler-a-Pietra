@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 const BUCKET = 'pietra-media';
-const ALLOWED_FOLDERS = ['materiales', 'proyectos', 'banners', 'ambientes'] as const;
+const ALLOWED_FOLDERS = ['materiales', 'proyectos', 'banners', 'ambientes', 'logos'] as const;
 
 type Folder = (typeof ALLOWED_FOLDERS)[number];
 
