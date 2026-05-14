@@ -170,12 +170,46 @@ export async function getPublicMaterialSlugs() {
   return Array.from(new Set([...localSlugs, ...supabaseSlugs]));
 }
 
-export async function getRelatedPublicMaterials(material: MaterialLike) {
+export async function getRelatedPublicMaterials(material: MaterialLike, limit = 4) {
   const relatedSlugs = material.related_slugs || material.relatedSlugs || [];
+  const selected: MaterialLike[] = [];
+  const usedSlugs = new Set<string>([material.slug]);
 
-  const related = await Promise.all(
-    relatedSlugs.slice(0, 4).map((slug) => getPublicMaterialBySlug(slug)),
+  if (relatedSlugs.length) {
+    const explicitRelated = await Promise.all(
+      relatedSlugs.slice(0, limit).map((slug) => getPublicMaterialBySlug(slug)),
+    );
+
+    for (const related of explicitRelated) {
+      if (related?.slug && !usedSlugs.has(related.slug)) {
+        selected.push(related);
+        usedSlugs.add(related.slug);
+      }
+    }
+  }
+
+  if (selected.length >= limit) {
+    return selected.slice(0, limit);
+  }
+
+  const allMaterials = await getPublicMaterials();
+
+  const sameCategory = allMaterials.filter(
+    (row) => row.slug !== material.slug && row.category === material.category,
   );
 
-  return related.filter(Boolean) as MaterialLike[];
+  const fallbackPool = sameCategory.length
+    ? sameCategory
+    : allMaterials.filter((row) => row.slug !== material.slug);
+
+  for (const related of fallbackPool) {
+    if (selected.length >= limit) break;
+
+    if (related.slug && !usedSlugs.has(related.slug)) {
+      selected.push(related);
+      usedSlugs.add(related.slug);
+    }
+  }
+
+  return selected.slice(0, limit);
 }
