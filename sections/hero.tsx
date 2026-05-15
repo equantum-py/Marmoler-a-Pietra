@@ -13,11 +13,11 @@ export async function Hero() {
 
   const desktopImage = banner.desktop_image_url || fallbackHomeBanner.desktop_image_url;
   const mobileImage = banner.mobile_image_url || desktopImage;
-  const altText = banner.alt_text || banner.name || 'Banner principal Marmolería Pietra';
+  const altText = banner.alt_text || banner.name || 'Marmolería Pietra';
   const bannerHref = banner.primary_cta_href || '';
 
-  const bannerImage = (
-    <picture>
+  const bannerPicture = (
+    <picture className="home-banner-picture">
       <source media="(max-width: 767px)" srcSet={mobileImage} />
       <source media="(min-width: 768px)" srcSet={desktopImage} />
 
@@ -32,8 +32,24 @@ export async function Hero() {
   );
 
   return (
-    <section id="inicio" className="w-full overflow-hidden bg-pietra-background">
-      <div className="grid w-full gap-3 px-3 py-3 md:gap-4 md:px-6 md:py-5 lg:grid-cols-[250px_minmax(0,1fr)] lg:px-8 xl:px-10">
+    <section id="inicio" className="home-banner-section">
+      <div className="home-hero-mobile-categories lg:hidden">
+        <div className="flex gap-2">
+          {sidebarCategories.slice(0, 8).map((category) => (
+            <a
+              key={category.name}
+              href={whatsappUrl(category.message)}
+              target="_blank"
+              rel="noreferrer"
+              className="shrink-0 rounded-full border border-pietra-border bg-white px-3.5 py-1.5 text-[11px] font-bold text-pietra-green shadow-sm"
+            >
+              {category.name}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div className="home-hero-layout">
         <aside
           id="categorias"
           className="hidden overflow-hidden rounded-sm border border-pietra-border bg-white shadow-sm lg:block"
@@ -62,34 +78,19 @@ export async function Hero() {
           </div>
         </aside>
 
-        <div className="lg:hidden">
-          <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
-            {sidebarCategories.slice(0, 8).map((category) => (
-              <a
-                key={category.name}
-                href={whatsappUrl(category.message)}
-                target="_blank"
-                rel="noreferrer"
-                className="shrink-0 rounded-full border border-pietra-border bg-white px-3.5 py-1.5 text-[11px] font-bold text-pietra-green shadow-sm"
-              >
-                {category.name}
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <article className="home-banner rounded-sm border border-pietra-border bg-white shadow-card">
+        <article className="home-banner">
           {bannerHref ? (
             <a
               href={bannerHref}
               target={getLinkTarget(bannerHref)}
               rel={bannerHref.startsWith('http') ? 'noreferrer' : undefined}
+              className="home-banner-link"
               aria-label={altText}
             >
-              {bannerImage}
+              {bannerPicture}
             </a>
           ) : (
-            bannerImage
+            bannerPicture
           )}
         </article>
       </div>
