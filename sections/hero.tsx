@@ -16,26 +16,19 @@ export async function Hero() {
   const altText = banner.alt_text || banner.name || 'Banner principal Marmolería Pietra';
   const bannerHref = banner.primary_cta_href || '';
 
-  const bannerImages = (
-    <>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={mobileImage}
-        alt={altText}
-        loading="eager"
-        className="hero-banner-image md:hidden"
-        style={{ objectPosition: banner.object_position_mobile || 'center center' }}
-      />
+  const bannerImage = (
+    <picture>
+      <source media="(max-width: 767px)" srcSet={mobileImage} />
+      <source media="(min-width: 768px)" srcSet={desktopImage} />
 
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={desktopImage}
         alt={altText}
         loading="eager"
-        className="hero-banner-image hidden md:block"
-        style={{ objectPosition: banner.object_position_desktop || 'center center' }}
+        className="home-banner-image"
       />
-    </>
+    </picture>
   );
 
   return (
@@ -85,19 +78,18 @@ export async function Hero() {
           </div>
         </div>
 
-        <article className="hero-banner rounded-sm border border-pietra-border bg-white shadow-card">
+        <article className="home-banner rounded-sm border border-pietra-border bg-white shadow-card">
           {bannerHref ? (
             <a
               href={bannerHref}
               target={getLinkTarget(bannerHref)}
               rel={bannerHref.startsWith('http') ? 'noreferrer' : undefined}
-              className="block h-full w-full"
               aria-label={altText}
             >
-              {bannerImages}
+              {bannerImage}
             </a>
           ) : (
-            bannerImages
+            bannerImage
           )}
         </article>
       </div>

@@ -158,3 +158,30 @@ canvas {
     max-height: 560px;
   }
 }
+
+/* Final home banner responsive image logic */
+.home-banner {
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.home-banner picture,
+.home-banner a {
+  display: block;
+  width: 100%;
+}
+
+.home-banner-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+@media (max-width: 480px) {
+  .luxe-container {
+    width: 100%;
+    padding-inline: 12px;
+  }
+}

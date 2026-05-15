@@ -85,7 +85,7 @@ export function HomeBannerForm({ action, banner, submitLabel }: HomeBannerFormPr
             name="desktop_image_url"
             folder="banners"
             defaultValue={banner?.desktop_image_url ?? ''}
-            previewFit="cover"
+            previewFit="contain"
             helperText="Recomendado: 1600×600 px o 1920×650 px."
           />
 
@@ -94,7 +94,7 @@ export function HomeBannerForm({ action, banner, submitLabel }: HomeBannerFormPr
             name="mobile_image_url"
             folder="banners"
             defaultValue={banner?.mobile_image_url ?? ''}
-            previewFit="cover"
+            previewFit="contain"
             helperText="Recomendado: 860×500 px. En mobile se mostrará compacto."
           />
         </div>
