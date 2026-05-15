@@ -28,7 +28,7 @@ export default async function AdminBannersPage() {
       <AdminPageHeader
         eyebrow="Campañas visuales"
         title="Banners Home"
-        description="Gestioná el hero responsive de la home con imágenes desktop/mobile, textos, CTA, estado, orden y fechas de publicación."
+        description="Gestioná imágenes responsive para la home: desktop, mobile, estado, orden y enlace opcional."
         action={
           <AdminActionButton href="/admin/banners/nuevo" variant="primary">
             Nuevo banner
@@ -42,7 +42,7 @@ export default async function AdminBannersPage() {
           'Estado',
           'Desktop',
           'Mobile',
-          'Título',
+          'Enlace',
           'Orden',
           'Acciones',
         ]}
@@ -66,8 +66,8 @@ export default async function AdminBannersPage() {
               {banner.mobile_image_url ? 'Cargada' : 'Sin imagen'}
             </td>
 
-            <td className="max-w-[280px] truncate px-5 py-4 text-pietra-muted">
-              {banner.title || 'Sin título'}
+            <td className="max-w-[240px] truncate px-5 py-4 text-pietra-muted">
+              {banner.primary_cta_href || 'Sin enlace'}
             </td>
 
             <td className="px-5 py-4 text-pietra-muted">

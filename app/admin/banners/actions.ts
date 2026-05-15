@@ -15,11 +15,6 @@ function nullable(value: FormDataEntryValue | null) {
   return cleaned ? cleaned : null;
 }
 
-function dateOrNull(value: FormDataEntryValue | null) {
-  const cleaned = clean(value);
-  return cleaned ? new Date(cleaned).toISOString() : null;
-}
-
 function bannerPayloadFromForm(formData: FormData) {
   const status = clean(formData.get('status')) || 'draft';
 
@@ -32,27 +27,27 @@ function bannerPayloadFromForm(formData: FormData) {
 
     desktop_image_url: clean(formData.get('desktop_image_url')),
     mobile_image_url: clean(formData.get('mobile_image_url')),
-    tablet_image_url: nullable(formData.get('tablet_image_url')),
+    tablet_image_url: null,
     alt_text: nullable(formData.get('alt_text')),
 
-    eyebrow: nullable(formData.get('eyebrow')),
-    title: clean(formData.get('title')) || 'Lujo en cada detalle',
-    highlighted_text: nullable(formData.get('highlighted_text')),
-    subtitle: nullable(formData.get('subtitle')),
+    eyebrow: null,
+    title: '',
+    highlighted_text: null,
+    subtitle: null,
 
-    primary_cta_label: nullable(formData.get('primary_cta_label')),
+    primary_cta_label: null,
     primary_cta_href: nullable(formData.get('primary_cta_href')),
-    secondary_cta_label: nullable(formData.get('secondary_cta_label')),
-    secondary_cta_href: nullable(formData.get('secondary_cta_href')),
-    whatsapp_message: nullable(formData.get('whatsapp_message')),
+    secondary_cta_label: null,
+    secondary_cta_href: null,
+    whatsapp_message: null,
 
-    text_position: clean(formData.get('text_position')) || 'left',
-    vertical_position: clean(formData.get('vertical_position')) || 'center',
-    object_position_desktop: clean(formData.get('object_position_desktop')) || 'center center',
-    object_position_mobile: clean(formData.get('object_position_mobile')) || 'center center',
+    text_position: 'left',
+    vertical_position: 'center',
+    object_position_desktop: 'center center',
+    object_position_mobile: 'center center',
 
-    starts_at: dateOrNull(formData.get('starts_at')),
-    ends_at: dateOrNull(formData.get('ends_at')),
+    starts_at: null,
+    ends_at: null,
   };
 }
 
