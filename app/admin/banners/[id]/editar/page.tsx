@@ -39,11 +39,15 @@ export default async function EditHomeBannerPage({ params }: PageProps) {
     <>
       <AdminPageHeader
         eyebrow="Editar banner"
-        title={banner.title || 'Banner'}
-        description="Actualizá textos, ubicación e imágenes responsive del banner."
+        title="Editar imagen del banner"
+        description="Actualizá la ubicación, estado, orden, enlace opcional e imágenes responsive del banner."
       />
 
-      <HomeBannerForm action={updateHomeBanner} banner={banner} submitLabel="Actualizar banner" />
+      <HomeBannerForm
+        action={updateHomeBanner}
+        banner={banner}
+        submitLabel="Actualizar banner"
+      />
     </>
   );
 }
