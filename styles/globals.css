@@ -75,3 +75,86 @@ img {
   border-color: #4a6356;
   box-shadow: 0 0 0 3px rgba(74, 99, 86, 0.12);
 }
+
+/* Professional responsive hero banners */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body,
+main {
+  min-width: 0;
+}
+
+main {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+@media (max-width: 480px) {
+  .luxe-container {
+    width: 100%;
+    padding-inline: 12px;
+  }
+}
+
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: clamp(220px, 56vw, 260px);
+  max-height: 260px;
+  overflow: hidden;
+}
+
+.hero-banner-image {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.hero-title {
+  font-size: clamp(1.65rem, 7vw, 2.45rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+}
+
+.hero-subtitle {
+  font-size: clamp(0.78rem, 3vw, 0.95rem);
+  line-height: 1.35;
+}
+
+@media (min-width: 768px) {
+  .hero-banner {
+    height: clamp(380px, 42vw, 520px);
+    max-height: 520px;
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 5vw, 5rem);
+  }
+
+  .hero-subtitle {
+    font-size: 1.125rem;
+    line-height: 1.55;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero-banner {
+    height: 560px;
+    max-height: 560px;
+  }
+}

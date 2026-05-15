@@ -26,9 +26,9 @@ export default async function AdminBannersPage() {
   return (
     <>
       <AdminPageHeader
-        eyebrow="Imágenes del sitio"
-        title="Banners visuales"
-        description="Administrá las imágenes reales del sitio: versión desktop, versión mobile y enlace opcional al hacer clic."
+        eyebrow="Campañas visuales"
+        title="Banners Home"
+        description="Gestioná el hero responsive de la home con imágenes desktop/mobile, textos, CTA, estado, orden y fechas de publicación."
         action={
           <AdminActionButton href="/admin/banners/nuevo" variant="primary">
             Nuevo banner
@@ -38,19 +38,20 @@ export default async function AdminBannersPage() {
 
       <AdminTable
         headers={[
-          'Ubicación',
+          'Banner',
           'Estado',
-          'Imagen desktop',
-          'Imagen mobile',
-          'Enlace',
+          'Desktop',
+          'Mobile',
+          'Título',
           'Orden',
           'Acciones',
         ]}
       >
         {banners.map((banner) => (
           <tr key={banner.id} className="transition hover:bg-pietra-cream">
-            <td className="px-5 py-4 font-semibold text-pietra-ink">
-              {banner.placement}
+            <td className="px-5 py-4">
+              <p className="font-semibold text-pietra-ink">{banner.name || 'Banner sin nombre'}</p>
+              <p className="mt-1 text-xs text-pietra-muted">{banner.placement || 'hero'}</p>
             </td>
 
             <td className="px-5 py-4">
@@ -58,15 +59,15 @@ export default async function AdminBannersPage() {
             </td>
 
             <td className="px-5 py-4 text-pietra-muted">
-              {banner.desktop_image ? 'Cargada' : 'Sin imagen'}
+              {banner.desktop_image_url ? 'Cargada' : 'Sin imagen'}
             </td>
 
             <td className="px-5 py-4 text-pietra-muted">
-              {banner.mobile_image ? 'Cargada' : 'Sin imagen'}
+              {banner.mobile_image_url ? 'Cargada' : 'Sin imagen'}
             </td>
 
-            <td className="max-w-[240px] truncate px-5 py-4 text-pietra-muted">
-              {banner.cta_url || 'Sin enlace'}
+            <td className="max-w-[280px] truncate px-5 py-4 text-pietra-muted">
+              {banner.title || 'Sin título'}
             </td>
 
             <td className="px-5 py-4 text-pietra-muted">
@@ -96,7 +97,7 @@ export default async function AdminBannersPage() {
         {!banners.length ? (
           <tr>
             <td colSpan={7} className="px-5 py-10 text-center text-pietra-muted">
-              Todavía no hay imágenes cargadas.
+              Todavía no hay banners cargados.
             </td>
           </tr>
         ) : null}
