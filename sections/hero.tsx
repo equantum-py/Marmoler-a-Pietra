@@ -15,20 +15,21 @@ export async function Hero() {
   const bannerLink = banner?.cta_url || '';
 
   const bannerImage = (
-    <picture className="absolute inset-0">
+    <picture className="block w-full">
       <source media="(max-width: 767px)" srcSet={mobileImage} />
+
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={desktopImage}
         alt="Banner principal Marmolería Pietra"
-        className="h-full w-full object-cover object-center"
+        className="block h-auto w-full"
       />
     </picture>
   );
 
   return (
     <section id="inicio" className="w-full bg-pietra-background">
-      <div className="grid w-full gap-5 px-4 py-5 md:px-6 lg:grid-cols-[250px_minmax(0,1fr)] lg:px-8 xl:px-10">
+      <div className="grid w-full gap-3 px-3 py-3 md:gap-4 md:px-6 md:py-5 lg:grid-cols-[250px_minmax(0,1fr)] lg:px-8 xl:px-10">
         <aside
           id="categorias"
           className="hidden overflow-hidden rounded-sm border border-pietra-border bg-white shadow-sm lg:block"
@@ -58,14 +59,14 @@ export async function Hero() {
         </aside>
 
         <div className="lg:hidden">
-          <div className="no-scrollbar flex gap-3 overflow-x-auto pb-1">
+          <div className="flex gap-2 overflow-x-auto pb-1">
             {sidebarCategories.slice(0, 8).map((category) => (
               <a
                 key={category.name}
                 href={whatsappUrl(category.message)}
                 target="_blank"
                 rel="noreferrer"
-                className="shrink-0 rounded-full border border-pietra-border bg-white px-4 py-2 text-sm font-bold text-pietra-green"
+                className="shrink-0 rounded-full border border-pietra-border bg-white px-4 py-2 text-xs font-bold text-pietra-green shadow-sm"
               >
                 {category.name}
               </a>
@@ -73,13 +74,13 @@ export async function Hero() {
           </div>
         </div>
 
-        <article className="relative aspect-[4/5] w-full overflow-hidden rounded-sm border border-pietra-border bg-white shadow-card sm:aspect-[16/8] lg:aspect-[1920/800]">
+        <article className="w-full overflow-hidden rounded-sm border border-pietra-border bg-white shadow-card">
           {bannerLink ? (
             <a
               href={bannerLink}
               target={getLinkTarget(bannerLink)}
               rel={bannerLink.startsWith('http') ? 'noreferrer' : undefined}
-              className="absolute inset-0"
+              className="block w-full"
               aria-label="Ver banner principal"
             >
               {bannerImage}

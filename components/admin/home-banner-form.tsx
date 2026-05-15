@@ -20,58 +20,11 @@ const placements = [
   {
     value: 'hero',
     label: 'Hero principal',
-    helper: 'Desktop recomendado: 1920x800 px. Mobile recomendado: 900x1200 px.',
-  },
-  {
-    value: 'ambiente-cocinas',
-    label: 'Ambiente - Cocinas',
-    helper: 'Desktop recomendado: 900x650 px. Mobile recomendado: 700x700 px.',
-  },
-  {
-    value: 'ambiente-banos',
-    label: 'Ambiente - Baños',
-    helper: 'Desktop recomendado: 900x650 px. Mobile recomendado: 700x700 px.',
-  },
-  {
-    value: 'ambiente-quinchos',
-    label: 'Ambiente - Quinchos',
-    helper: 'Desktop recomendado: 900x650 px. Mobile recomendado: 700x700 px.',
-  },
-  {
-    value: 'ambiente-revestimientos',
-    label: 'Ambiente - Revestimientos',
-    helper: 'Desktop recomendado: 900x650 px. Mobile recomendado: 700x700 px.',
-  },
-  {
-    value: 'ambiente-escaleras',
-    label: 'Ambiente - Escaleras y piezas especiales',
-    helper: 'Desktop recomendado: 900x650 px. Mobile recomendado: 700x700 px.',
-  },
-  {
-    value: 'promo-1',
-    label: 'Banner comercial 1',
-    helper: 'Desktop recomendado: 1200x450 px. Mobile recomendado: 900x1100 px.',
-  },
-  {
-    value: 'promo-2',
-    label: 'Banner comercial 2',
-    helper: 'Desktop recomendado: 1200x450 px. Mobile recomendado: 900x1100 px.',
-  },
-  {
-    value: 'promo-3',
-    label: 'Banner comercial 3',
-    helper: 'Desktop recomendado: 1200x450 px. Mobile recomendado: 900x1100 px.',
-  },
-  {
-    value: 'side-promo',
-    label: 'Banner lateral destacado',
-    helper: 'Desktop recomendado: 900x1200 px. Mobile recomendado: 900x1100 px.',
+    helper: 'Desktop: 1920×800 px. Mobile: 600×406 px.',
   },
 ];
 
 export function HomeBannerForm({ action, banner, submitLabel }: HomeBannerFormProps) {
-  const selectedPlacement = placements.find((item) => item.value === banner?.placement);
-
   return (
     <form action={action} className="space-y-6">
       {banner?.id ? <input type="hidden" name="id" value={banner.id} /> : null}
@@ -79,15 +32,16 @@ export function HomeBannerForm({ action, banner, submitLabel }: HomeBannerFormPr
       <section className="admin-section-card space-y-5">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-pietra-brown">
-            Configuración del banner
+            Banner principal
           </p>
 
           <h2 className="mt-2 font-display text-3xl text-pietra-ink">
-            Imagen desktop y mobile
+            Imágenes del Hero
           </h2>
 
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-pietra-muted">
-            Subí una imagen para desktop y otra para mobile. El banner no lleva texto encima.
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-pietra-muted">
+            Cargá una imagen para desktop y otra para mobile. El sitio no agregará textos, botones ni capas encima del banner.
+            La pieza gráfica debe venir diseñada lista para publicarse.
           </p>
         </div>
 
@@ -111,7 +65,7 @@ export function HomeBannerForm({ action, banner, submitLabel }: HomeBannerFormPr
             Estado
             <select
               name="status"
-              defaultValue={banner?.status ?? 'draft'}
+              defaultValue={banner?.status ?? 'published'}
               className="admin-input mt-2"
             >
               <option value="published">Publicado</option>
@@ -132,7 +86,7 @@ export function HomeBannerForm({ action, banner, submitLabel }: HomeBannerFormPr
         </div>
 
         <label className="block text-sm font-semibold text-pietra-ink">
-          Enlace opcional al hacer clic en el banner
+          Enlace opcional del banner
           <input
             name="cta_url"
             defaultValue={banner?.cta_url ?? ''}
@@ -141,30 +95,41 @@ export function HomeBannerForm({ action, banner, submitLabel }: HomeBannerFormPr
           />
         </label>
 
-        <div className="rounded-2xl border border-pietra-border bg-pietra-cream p-4 text-sm leading-6 text-pietra-muted">
-          <strong className="text-pietra-ink">Tamaño sugerido:</strong>{' '}
-          {selectedPlacement?.helper ||
-            'Hero: 1920x800 desktop / 900x1200 mobile. Ambientes: 900x650 desktop / 700x700 mobile. Promos: 1200x450 desktop / 900x1100 mobile.'}
+        <div className="grid gap-4 rounded-2xl border border-pietra-border bg-pietra-cream p-4 text-sm leading-6 text-pietra-muted md:grid-cols-2">
+          <div>
+            <strong className="block text-pietra-ink">Desktop</strong>
+            Imagen recomendada: <strong>1920×800 px</strong>. Horizontal, comercial y amplia.
+          </div>
+
+          <div>
+            <strong className="block text-pietra-ink">Mobile</strong>
+            Imagen recomendada: <strong>600×406 px</strong>. Horizontal, con margen seguro y sin texto pegado a los bordes.
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-800">
+          <strong>Regla obligatoria:</strong> no subir el banner desktop como mobile. El mobile debe ser una pieza diseñada
+          específicamente para celular en 600×406 px.
         </div>
       </section>
 
       <section className="grid gap-5 lg:grid-cols-2">
         <AdminImageUploader
-          label="Imagen desktop"
+          label="Imagen desktop — 1920×800 px"
           name="desktop_image"
           folder="banners"
           defaultValue={banner?.desktop_image ?? ''}
-          previewFit="cover"
-          helperText="Obligatoria. Usar imagen horizontal para desktop."
+          previewFit="contain"
+          helperText="Obligatoria. Imagen horizontal para escritorio."
         />
 
         <AdminImageUploader
-          label="Imagen mobile"
+          label="Imagen mobile — 600×406 px"
           name="mobile_image"
           folder="banners"
           defaultValue={banner?.mobile_image ?? ''}
-          previewFit="cover"
-          helperText="Opcional pero recomendada. Usar versión vertical o cuadrada para celulares."
+          previewFit="contain"
+          helperText="Obligatoria para mobile. No usar versión vertical ni cuadrada."
         />
       </section>
 
