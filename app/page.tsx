@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { FloatingWhatsapp } from '@/components/floating-whatsapp';
 import { Navbar } from '@/components/navbar';
 import { Benefits } from '@/sections/benefits';

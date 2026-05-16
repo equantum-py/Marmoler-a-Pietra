@@ -25,6 +25,8 @@ export async function Categories() {
                   `Hola, quiero cotizar ${category.name} con Marmolería Pietra.`,
               );
 
+            const image = category.mobile_image_url || category.image_url;
+
             return (
               <a
                 key={category.id}
@@ -34,7 +36,7 @@ export async function Categories() {
                 className="group relative h-[128px] w-[68vw] shrink-0 snap-start overflow-hidden rounded-xl border border-pietra-border bg-white shadow-card sm:h-[180px] sm:w-auto sm:shrink"
               >
                 <Image
-                  src={category.image_url}
+                  src={image}
                   alt={category.name}
                   fill
                   unoptimized

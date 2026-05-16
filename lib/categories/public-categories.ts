@@ -48,7 +48,7 @@ export async function getPublishedHomeCategories() {
           apikey: supabaseAnonKey,
           Authorization: `Bearer ${supabaseAnonKey}`,
         },
-        next: { revalidate: 60 },
+        cache: 'no-store',
       },
     );
 
