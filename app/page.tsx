@@ -8,6 +8,7 @@ import { Footer } from '@/sections/footer';
 import { Hero } from '@/sections/hero';
 import { MaterialsShowroom } from '@/sections/materials-showroom';
 import { Promotion } from '@/sections/promotion';
+import { PromotionsShowcase } from '@/sections/promotions-showcase';
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <main>
         <Hero />
         <Categories />
+        <PromotionsShowcase />
         <MaterialsShowroom />
         <Promotion />
         <Benefits />
