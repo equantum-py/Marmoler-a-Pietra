@@ -62,52 +62,101 @@ function HomeMaterialCard({ material }: { material: HomeMaterial }) {
 }
 
 function MaterialSidePromotion({ promotion }: { promotion?: HomePromotion }) {
-  const mediaUrl = promotion?.desktop_media_url || '';
+  const desktopMediaUrl = promotion?.desktop_media_url || '';
+  const mobileMediaUrl = promotion?.mobile_media_url || desktopMediaUrl;
   const posterUrl = promotion?.poster_url || undefined;
-  const isVideo = promotion?.media_type === 'video' && mediaUrl;
+  const isVideo = promotion?.media_type === 'video' && desktopMediaUrl;
 
   return (
-    <div className="hidden min-h-[420px] overflow-hidden rounded-[1.75rem] border border-pietra-border bg-pietra-warm shadow-sm lg:relative lg:block">
-      {isVideo ? (
-        <video
-          src={mediaUrl}
-          poster={posterUrl}
-          autoPlay={promotion?.autoplay ?? true}
-          muted={promotion?.muted ?? true}
-          loop={promotion?.loop ?? true}
-          playsInline
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      ) : mediaUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={mediaUrl}
-          alt={promotion?.alt_text || promotion?.name || 'Proyecto a medida Marmolería Pietra'}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      ) : (
-        <div className="absolute inset-0 bg-[linear-gradient(110deg,#f7f2ea_0_24%,#2f302b_24%_27%,#ddd2c3_27%_60%,#4A6356_60%_64%,#c8b9a4_64%_100%)]" />
-      )}
+    <>
+      {/* DESKTOP: video lateral derecho */}
+      <div className="hidden min-h-[420px] overflow-hidden rounded-[1.75rem] border border-pietra-border bg-pietra-warm shadow-sm lg:relative lg:block">
+        {isVideo ? (
+          <video
+            src={desktopMediaUrl}
+            poster={posterUrl}
+            autoPlay={promotion?.autoplay ?? true}
+            muted={promotion?.muted ?? true}
+            loop={promotion?.loop ?? true}
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : desktopMediaUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={desktopMediaUrl}
+            alt={promotion?.alt_text || promotion?.name || 'Proyecto a medida Marmolería Pietra'}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-[linear-gradient(110deg,#f7f2ea_0_24%,#2f302b_24%_27%,#ddd2c3_27%_60%,#4A6356_60%_64%,#c8b9a4_64%_100%)]" />
+        )}
 
-      <div className="absolute inset-0 bg-gradient-to-t from-pietra-black/75 via-pietra-black/25 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-pietra-black/75 via-pietra-black/25 to-transparent" />
 
-      <div className="absolute bottom-8 left-8 right-8 text-white">
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-pietra-warm">
-          Proyecto a medida
-        </p>
+        <div className="absolute bottom-8 left-8 right-8 text-white">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-pietra-warm">
+            Proyecto a medida
+          </p>
 
-        <h3 className="max-w-md text-4xl font-semibold leading-none md:text-5xl">
-          Cocinas a medida con superficies premium.
-        </h3>
+          <h3 className="max-w-md text-4xl font-semibold leading-none md:text-5xl">
+            Cocinas a medida con superficies premium.
+          </h3>
 
-        <WhatsappLink
-          message="Hola Pietra, quiero cotizar una cocina a medida con superficie premium."
-          className="mt-7 bg-white px-6 py-3 text-pietra-black hover:bg-pietra-warm"
-        >
-          Cotizar proyecto
-        </WhatsappLink>
+          <WhatsappLink
+            message="Hola Pietra, quiero cotizar una cocina a medida con superficie premium."
+            className="mt-7 bg-white px-6 py-3 text-pietra-black hover:bg-pietra-warm"
+          >
+            Cotizar proyecto
+          </WhatsappLink>
+        </div>
       </div>
-    </div>
+
+      {/* MOBILE: video debajo de la colección */}
+      {desktopMediaUrl ? (
+        <div className="relative mt-6 overflow-hidden rounded-2xl border border-pietra-border bg-pietra-warm shadow-sm lg:hidden">
+          <div className="relative aspect-[860/520] w-full overflow-hidden">
+            {isVideo ? (
+              <video
+                src={mobileMediaUrl}
+                poster={posterUrl}
+                autoPlay={promotion?.autoplay ?? true}
+                muted={promotion?.muted ?? true}
+                loop={promotion?.loop ?? true}
+                playsInline
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={mobileMediaUrl}
+                alt={promotion?.alt_text || promotion?.name || 'Proyecto a medida Marmolería Pietra'}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
+
+            <div className="absolute inset-0 bg-gradient-to-t from-pietra-black/80 via-pietra-black/25 to-transparent" />
+
+            <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+              <p className="mb-2 text-[9px] font-bold uppercase tracking-[0.22em] text-pietra-warm">
+                Proyecto a medida
+              </p>
+
+              <h3 className="max-w-[260px] font-display text-2xl leading-none">
+                Cocinas a medida con superficies premium.
+              </h3>
+
+              <WhatsappLink
+                message="Hola Pietra, quiero cotizar una cocina a medida con superficie premium."
+                className="mt-4 w-full justify-center bg-white px-5 py-3 text-xs text-pietra-black hover:bg-pietra-warm"
+              >
+                Cotizar proyecto
+              </WhatsappLink>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 }
 
