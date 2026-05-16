@@ -34,7 +34,7 @@ export async function Promotion() {
                 href={href}
                 target={getLinkTarget(href)}
                 rel={href.startsWith('http') ? 'noreferrer' : undefined}
-                className="group relative min-h-[132px] w-[82vw] shrink-0 snap-start overflow-hidden rounded-md border border-pietra-border bg-pietra-ink shadow-card lg:h-[150px] lg:w-[31.5%] lg:min-w-[300px] lg:max-w-[390px] lg:shrink"
+                className="group relative min-h-[170px] w-[82vw] shrink-0 snap-start overflow-hidden rounded-xl border border-pietra-border bg-pietra-ink shadow-card lg:h-[190px] lg:w-[31.5%] lg:min-w-[300px] lg:max-w-[420px] lg:shrink"
               >
                 <Image
                   src={image}
@@ -47,7 +47,7 @@ export async function Promotion() {
 
                 <div className="absolute inset-0 bg-gradient-to-r from-pietra-ink/88 via-pietra-ink/50 to-pietra-ink/15" />
 
-                <div className="relative z-10 flex min-h-[132px] flex-col justify-center p-5 text-white md:p-6 lg:min-h-[150px]">
+                <div className="relative z-10 flex min-h-[170px] flex-col justify-center p-5 pb-6 text-white md:p-6 md:pb-7 lg:min-h-[190px]">
                   <p className="text-[10px] font-extrabold uppercase tracking-wide md:text-xs">
                     {banner.eyebrow}
                   </p>
@@ -56,7 +56,7 @@ export async function Promotion() {
                     {banner.title}
                   </h3>
 
-                  <span className="mt-3 inline-flex w-fit items-center gap-2 rounded border border-white/70 px-4 py-2 text-[10px] font-extrabold uppercase transition group-hover:bg-white group-hover:text-pietra-green md:mt-4 md:text-xs">
+                  <span className="mt-3 inline-flex w-fit shrink-0 items-center gap-2 rounded border border-white/70 px-4 py-2 text-[10px] font-extrabold uppercase transition group-hover:bg-white group-hover:text-pietra-green md:mt-4 md:text-xs">
                     {banner.cta_label} <ArrowRight className="h-3.5 w-3.5" />
                   </span>
                 </div>
