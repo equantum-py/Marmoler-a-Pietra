@@ -10,12 +10,14 @@ import {
   Search,
   Settings,
   SlidersHorizontal,
+  Tags,
 } from 'lucide-react';
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/home', label: 'Home', icon: Home },
   { href: '/admin/materiales', label: 'Materiales', icon: SlidersHorizontal },
+  { href: '/admin/categorias', label: 'Categorías', icon: Tags },
   { href: '/admin/proyectos', label: 'Proyectos', icon: ImageIcon },
   { href: '/admin/banners', label: 'Banners', icon: BarChart3 },
   { href: '/admin/leads', label: 'Leads', icon: MessageCircle },
