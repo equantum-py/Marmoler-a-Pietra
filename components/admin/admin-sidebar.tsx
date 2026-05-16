@@ -21,6 +21,7 @@ const navItems = [
   { href: '/admin/categorias', label: 'Categorías', icon: Tags },
   { href: '/admin/proyectos', label: 'Proyectos', icon: ImageIcon },
   { href: '/admin/banners', label: 'Banners', icon: BarChart3 },
+  { href: '/admin/banners-pequenos', label: 'Banners pequeños', icon: ImageIcon },
   { href: '/admin/promociones', label: 'Promociones', icon: Megaphone },
   { href: '/admin/leads', label: 'Leads', icon: MessageCircle },
   { href: '/admin/seo', label: 'SEO', icon: Search },
