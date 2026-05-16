@@ -105,7 +105,7 @@ function MaterialSidePromotion({ promotion }: { promotion?: HomePromotion }) {
 
           <WhatsappLink
             message="Hola Pietra, quiero cotizar una cocina a medida con superficie premium."
-            className="mt-7 bg-white px-6 py-3 text-pietra-black hover:bg-pietra-warm"
+            className="mt-7 !bg-pietra-green px-6 py-3 !text-white hover:!bg-pietra-sage"
           >
             Cotizar proyecto
           </WhatsappLink>
@@ -148,7 +148,7 @@ function MaterialSidePromotion({ promotion }: { promotion?: HomePromotion }) {
 
               <WhatsappLink
                 message="Hola Pietra, quiero cotizar una cocina a medida con superficie premium."
-                className="mt-4 w-full justify-center bg-white px-5 py-3 text-xs text-pietra-black hover:bg-pietra-warm"
+                className="mt-4 w-full justify-center !bg-pietra-green px-5 py-3 text-xs !text-white hover:!bg-pietra-sage"
               >
                 Cotizar proyecto
               </WhatsappLink>
