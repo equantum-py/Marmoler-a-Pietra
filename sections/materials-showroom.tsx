@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { SectionHeading } from '@/components/section-heading';
 import { WhatsappLink } from '@/components/whatsapp-link';
 import { getPublicFeaturedMaterials, getPublicMaterials } from '@/lib/materials/public-materials';
+import { getPublishedHomePromotions, type HomePromotion } from '@/lib/promotions/public-promotions';
 
 type HomeMaterial = {
   slug: string;
@@ -60,9 +61,61 @@ function HomeMaterialCard({ material }: { material: HomeMaterial }) {
   );
 }
 
+function MaterialSidePromotion({ promotion }: { promotion?: HomePromotion }) {
+  const mediaUrl = promotion?.desktop_media_url || '';
+  const posterUrl = promotion?.poster_url || undefined;
+  const isVideo = promotion?.media_type === 'video' && mediaUrl;
+
+  return (
+    <div className="hidden min-h-[420px] overflow-hidden rounded-[1.75rem] border border-pietra-border bg-pietra-warm shadow-sm lg:relative lg:block">
+      {isVideo ? (
+        <video
+          src={mediaUrl}
+          poster={posterUrl}
+          autoPlay={promotion?.autoplay ?? true}
+          muted={promotion?.muted ?? true}
+          loop={promotion?.loop ?? true}
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      ) : mediaUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={mediaUrl}
+          alt={promotion?.alt_text || promotion?.name || 'Proyecto a medida Marmolería Pietra'}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-[linear-gradient(110deg,#f7f2ea_0_24%,#2f302b_24%_27%,#ddd2c3_27%_60%,#4A6356_60%_64%,#c8b9a4_64%_100%)]" />
+      )}
+
+      <div className="absolute inset-0 bg-gradient-to-t from-pietra-black/75 via-pietra-black/25 to-transparent" />
+
+      <div className="absolute bottom-8 left-8 right-8 text-white">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-pietra-warm">
+          Proyecto a medida
+        </p>
+
+        <h3 className="max-w-md text-4xl font-semibold leading-none md:text-5xl">
+          Cocinas a medida con superficies premium.
+        </h3>
+
+        <WhatsappLink
+          message="Hola Pietra, quiero cotizar una cocina a medida con superficie premium."
+          className="mt-7 bg-white px-6 py-3 text-pietra-black hover:bg-pietra-warm"
+        >
+          Cotizar proyecto
+        </WhatsappLink>
+      </div>
+    </div>
+  );
+}
+
 export async function MaterialsShowroom() {
   const highlightedMaterials = await getPublicFeaturedMaterials(8);
   const allMaterials = await getPublicMaterials();
+  const materialPromotions = await getPublishedHomePromotions('materials-side-card');
+  const sidePromotion = materialPromotions.find((promotion) => promotion.desktop_media_url);
 
   const primaryMaterials =
     highlightedMaterials.length > 0 ? highlightedMaterials : allMaterials.slice(0, 8);
@@ -121,27 +174,7 @@ export async function MaterialsShowroom() {
               </div>
             </div>
 
-            <div className="hidden min-h-[420px] overflow-hidden rounded-[1.75rem] border border-pietra-border bg-pietra-warm shadow-sm lg:relative lg:block">
-              <div className="absolute inset-0 bg-[linear-gradient(110deg,#f7f2ea_0_24%,#2f302b_24%_27%,#ddd2c3_27%_60%,#4A6356_60%_64%,#c8b9a4_64%_100%)]" />
-              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-pietra-black/70 via-pietra-black/20 to-transparent" />
-
-              <div className="absolute bottom-8 left-8 right-8 text-white">
-                <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-pietra-warm">
-                  Proyecto a medida
-                </p>
-
-                <h3 className="max-w-md text-4xl font-semibold leading-none md:text-5xl">
-                  Cocinas a medida con superficies premium.
-                </h3>
-
-                <WhatsappLink
-                  message="Hola Pietra, quiero cotizar una cocina a medida con superficie premium."
-                  className="mt-7 bg-white px-6 py-3 text-pietra-black hover:bg-pietra-warm"
-                >
-                  Cotizar proyecto
-                </WhatsappLink>
-              </div>
-            </div>
+            <MaterialSidePromotion promotion={sidePromotion} />
           </div>
         ) : null}
 

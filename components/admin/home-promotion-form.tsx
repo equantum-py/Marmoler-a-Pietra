@@ -40,7 +40,7 @@ export function HomePromotionForm({ action, promotion, submitLabel }: HomePromot
 
           <p className="mt-2 max-w-3xl text-sm leading-6 text-pietra-muted">
             Esta sección permite cargar un banner largo para la Home, usando imagen o video.
-            Se mostrará entre Categorías y Materiales.
+            Podés usarla como banner largo o como video lateral dentro de la sección Materiales.
           </p>
         </div>
 
@@ -49,6 +49,7 @@ export function HomePromotionForm({ action, promotion, submitLabel }: HomePromot
             Ubicación
             <select name="placement" defaultValue={promotion?.placement ?? 'home-wide'} className="admin-input mt-2">
               <option value="home-wide">Banner largo Home</option>
+              <option value="materials-side-card">Video lateral Materiales</option>
             </select>
           </label>
 
