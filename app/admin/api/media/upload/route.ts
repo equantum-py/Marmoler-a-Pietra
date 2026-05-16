@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 const BUCKET = 'pietra-media';
-const ALLOWED_FOLDERS = ['materiales', 'proyectos', 'banners', 'ambientes', 'logos'] as const;
+const ALLOWED_FOLDERS = ['materiales', 'proyectos', 'banners', 'ambientes', 'logos', 'promociones'] as const;
 
 type Folder = (typeof ALLOWED_FOLDERS)[number];
 
@@ -91,7 +91,7 @@ export async function POST(request: Request) {
     const message = await response.text();
 
     return NextResponse.json(
-      { message: message || 'No se pudo subir la imagen.' },
+      { message: message || 'No se pudo subir el archivo.' },
       { status: response.status },
     );
   }

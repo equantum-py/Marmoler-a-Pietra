@@ -1,4 +1,4 @@
-export type PietraMediaFolder = 'materiales' | 'proyectos' | 'banners' | 'ambientes' | 'logos' | 'logos';
+export type PietraMediaFolder = 'materiales' | 'proyectos' | 'banners' | 'ambientes' | 'logos' | 'promociones';
 
 export async function uploadPietraMedia({
   file,
@@ -19,7 +19,7 @@ export async function uploadPietraMedia({
   const payload = await response.json().catch(() => null);
 
   if (!response.ok) {
-    throw new Error(payload?.message || 'No se pudo subir la imagen.');
+    throw new Error(payload?.message || 'No se pudo subir el archivo.');
   }
 
   return payload as {
