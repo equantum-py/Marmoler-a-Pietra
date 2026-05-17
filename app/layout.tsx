@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import '@/styles/globals.css';
+import { AnalyticsTracker } from '@/components/analytics-tracker';
 
 const display = Cormorant_Garamond({
   subsets: ['latin'],
@@ -47,7 +48,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es" suppressHydrationWarning className={`${display.variable} ${sans.variable}`}>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <AnalyticsTracker />
+        {children}
+      </body>
     </html>
   );
 }

@@ -38,13 +38,14 @@ export function AdminSidebar() {
         <Image src="/logo-pietra.svg" width={92} height={34} alt="Pietra" className="h-auto w-24" />
         <div className="border-l border-pietra-border pl-3">
           <p className="text-sm font-bold text-pietra-ink">Panel Pietra</p>
-          <p className="text-xs text-pietra-muted">CMS interno</p>
+          <p className="text-xs text-pietra-muted">CMS + Analytics</p>
         </div>
       </Link>
 
       <nav className="mt-8 space-y-2">
         {navItems.map((item) => {
           const Icon = item.icon;
+
           return (
             <Link
               key={item.href}
@@ -60,9 +61,9 @@ export function AdminSidebar() {
 
       <div className="mt-auto rounded-[1.25rem] bg-pietra-green p-4 text-white">
         <FileText size={20} />
-        <p className="mt-3 text-sm font-bold">Fase 1 del CMS</p>
+        <p className="mt-3 text-sm font-bold">Panel comercial</p>
         <p className="mt-1 text-xs leading-5 text-white/75">
-          Datos mock/locales preparados para autenticación y base de datos en una siguiente etapa.
+          CMS interno con medición de visitas, clicks a WhatsApp y comportamiento web.
         </p>
       </div>
     </aside>

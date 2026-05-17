@@ -1,4 +1,4 @@
-import { MessageCircle, Ruler, Settings, UsersRound } from 'lucide-react';
+import { Ruler, Settings, UsersRound, MessageCircle } from 'lucide-react';
 import { benefits } from '@/data/site';
 
 const icons = [UsersRound, Ruler, Settings, MessageCircle];

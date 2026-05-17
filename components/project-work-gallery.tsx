@@ -1,8 +1,9 @@
 'use client';
 
+import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
-import { Images, MessageCircle } from 'lucide-react';
+import { Images } from 'lucide-react';
 import {
   projectCategories,
   projectWorks,
@@ -110,7 +111,7 @@ export function ProjectWorkGallery() {
                 rel="noreferrer"
                 className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-pietra-green px-5 text-sm font-bold text-white transition hover:bg-pietra-sage"
               >
-                <MessageCircle className="h-4 w-4" />
+                <WhatsappIcon className="h-4 w-4" />
                 Cotizar similar
               </a>
             </div>
