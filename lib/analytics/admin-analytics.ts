@@ -45,6 +45,7 @@ function emptyDashboard(range: AnalyticsRange) {
     pageViews: 0,
     uniqueVisitors: 0,
     whatsappClicks: 0,
+    whatsappVisitors: 0,
     conversionRate: 0,
     mainDevice: 'Sin datos',
     mainReferrer: 'Sin datos',
@@ -184,6 +185,10 @@ export async function getAnalyticsDashboard(range: AnalyticsRange = '24h') {
     events.map((event) => event.visitor_id).filter(Boolean),
   ).size;
 
+  const whatsappVisitors = new Set(
+    whatsappClicks.map((event) => event.visitor_id).filter(Boolean),
+  ).size;
+
   const devices = countBy(events, (event) => event.device_type);
   const referrers = countBy(events, (event) => event.referrer);
   const topPages = countBy(pageViews, (event) => event.page_path).slice(0, 7);
@@ -200,7 +205,8 @@ export async function getAnalyticsDashboard(range: AnalyticsRange = '24h') {
     pageViews: pageViews.length,
     uniqueVisitors,
     whatsappClicks: whatsappClicks.length,
-    conversionRate: percentage(whatsappClicks.length, uniqueVisitors),
+    whatsappVisitors,
+    conversionRate: percentage(whatsappVisitors, uniqueVisitors),
     mainDevice: devices[0]?.label ?? 'Sin datos',
     mainReferrer: referrers[0]?.label ?? 'Sin datos',
     topPages,

@@ -256,14 +256,14 @@ export default async function AdminDashboardPage({
         <MetricCard
           label="Clicks a WhatsApp"
           value={analytics.whatsappClicks}
-          description="Clicks reales en botones o enlaces que llevan a WhatsApp."
-          badge="Conversión"
+          description="Total de clicks reales en botones o enlaces que llevan a WhatsApp."
+          badge="Clicks"
         />
 
         <MetricCard
           label="Conversión WhatsApp"
           value={`${analytics.conversionRate}%`}
-          description="Clicks a WhatsApp dividido por visitantes únicos."
+          description="Visitantes únicos que hicieron al menos un click a WhatsApp."
           badge={analytics.rangeLabel}
         />
       </section>
