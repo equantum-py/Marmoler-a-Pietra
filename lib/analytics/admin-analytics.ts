@@ -2,6 +2,8 @@ import { getAdminAccessToken, requireAdminUser } from '@/lib/supabase/auth';
 import { supabaseFetch } from '@/lib/supabase/client';
 import { isSupabaseConfigured } from '@/lib/supabase/config';
 
+export type AnalyticsRange = '24h' | 'yesterday' | '7d' | '30d';
+
 type AnalyticsEvent = {
   event_type: string;
   page_path: string;
@@ -19,6 +21,41 @@ type TopItem = {
   label: string;
   value: number;
 };
+
+type HourItem = {
+  label: string;
+  pageViews: number;
+  whatsappClicks: number;
+  total: number;
+};
+
+export const analyticsRangeOptions: { value: AnalyticsRange; label: string; description: string }[] = [
+  { value: '24h', label: 'Últimas 24h', description: 'Actividad reciente' },
+  { value: 'yesterday', label: 'Ayer', description: 'Comparación diaria' },
+  { value: '7d', label: '7 días', description: 'Tendencia semanal' },
+  { value: '30d', label: '30 días', description: 'Visión mensual' },
+];
+
+function emptyDashboard(range: AnalyticsRange) {
+  const rangeOption = analyticsRangeOptions.find((item) => item.value === range) ?? analyticsRangeOptions[0];
+
+  return {
+    selectedRange: range,
+    rangeLabel: rangeOption.label,
+    pageViews: 0,
+    uniqueVisitors: 0,
+    whatsappClicks: 0,
+    conversionRate: 0,
+    mainDevice: 'Sin datos',
+    mainReferrer: 'Sin datos',
+    topPages: [] as TopItem[],
+    topWhatsappButtons: [] as TopItem[],
+    devices: [] as TopItem[],
+    referrers: [] as TopItem[],
+    hourlyActivity: [] as HourItem[],
+    recentEvents: [] as AnalyticsEvent[],
+  };
+}
 
 function countBy<T extends string | null | undefined>(
   events: AnalyticsEvent[],
@@ -42,101 +79,136 @@ function percentage(value: number, total: number) {
   return Math.round((value / total) * 1000) / 10;
 }
 
-function sinceHours(hours: number) {
-  return new Date(Date.now() - hours * 60 * 60 * 1000).toISOString();
+function getRangeBounds(range: AnalyticsRange) {
+  const now = Date.now();
+  const hour = 60 * 60 * 1000;
+  const day = 24 * hour;
+
+  if (range === 'yesterday') {
+    return {
+      since: new Date(now - 48 * hour).toISOString(),
+      until: new Date(now - 24 * hour).toISOString(),
+    };
+  }
+
+  if (range === '7d') {
+    return {
+      since: new Date(now - 7 * day).toISOString(),
+      until: new Date(now).toISOString(),
+    };
+  }
+
+  if (range === '30d') {
+    return {
+      since: new Date(now - 30 * day).toISOString(),
+      until: new Date(now).toISOString(),
+    };
+  }
+
+  return {
+    since: new Date(now - 24 * hour).toISOString(),
+    until: new Date(now).toISOString(),
+  };
 }
 
-function sinceDays(days: number) {
-  return new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
-}
+async function fetchEvents(accessToken: string, range: AnalyticsRange, limit = 5000) {
+  const { since, until } = getRangeBounds(range);
 
-async function fetchEvents(accessToken: string, since: string, limit = 3000) {
-  const sinceParam = encodeURIComponent(since);
+  const filters = [
+    `created_at=gte.${encodeURIComponent(since)}`,
+    `created_at=lte.${encodeURIComponent(until)}`,
+  ];
 
   return supabaseFetch<AnalyticsEvent[]>(
-    `/analytics_events?select=event_type,page_path,page_title,element_label,element_href,device_type,referrer,visitor_id,session_id,created_at&created_at=gte.${sinceParam}&order=created_at.desc&limit=${limit}`,
+    `/analytics_events?select=event_type,page_path,page_title,element_label,element_href,device_type,referrer,visitor_id,session_id,created_at&${filters.join('&')}&order=created_at.desc&limit=${limit}`,
     { accessToken },
   );
 }
 
-export async function getAnalyticsDashboard() {
+function getHourlyActivity(events: AnalyticsEvent[]) {
+  const map = new Map<string, HourItem>();
+
+  for (const event of events) {
+    const label = new Date(event.created_at).toLocaleTimeString('es-PY', {
+      timeZone: 'America/Asuncion',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
+    const hourLabel = label.slice(0, 2) + ':00';
+
+    const current = map.get(hourLabel) ?? {
+      label: hourLabel,
+      pageViews: 0,
+      whatsappClicks: 0,
+      total: 0,
+    };
+
+    if (event.event_type === 'page_view') {
+      current.pageViews += 1;
+    }
+
+    if (event.event_type === 'whatsapp_click') {
+      current.whatsappClicks += 1;
+    }
+
+    current.total += 1;
+
+    map.set(hourLabel, current);
+  }
+
+  return [...map.values()]
+    .sort((a, b) => a.label.localeCompare(b.label))
+    .slice(-12);
+}
+
+export async function getAnalyticsDashboard(range: AnalyticsRange = '24h') {
   await requireAdminUser();
 
   if (!isSupabaseConfigured) {
-    return {
-      pageViews24h: 0,
-      uniqueVisitors24h: 0,
-      whatsappClicks24h: 0,
-      conversionRate24h: 0,
-      pageViews7d: 0,
-      whatsappClicks7d: 0,
-      mainDevice: 'Sin datos',
-      mainReferrer: 'Sin datos',
-      topPages: [] as TopItem[],
-      topWhatsappButtons: [] as TopItem[],
-      devices: [] as TopItem[],
-      referrers: [] as TopItem[],
-      recentEvents: [] as AnalyticsEvent[],
-    };
+    return emptyDashboard(range);
   }
 
   const accessToken = await getAdminAccessToken();
 
   if (!accessToken) {
-    return {
-      pageViews24h: 0,
-      uniqueVisitors24h: 0,
-      whatsappClicks24h: 0,
-      conversionRate24h: 0,
-      pageViews7d: 0,
-      whatsappClicks7d: 0,
-      mainDevice: 'Sin sesión',
-      mainReferrer: 'Sin sesión',
-      topPages: [] as TopItem[],
-      topWhatsappButtons: [] as TopItem[],
-      devices: [] as TopItem[],
-      referrers: [] as TopItem[],
-      recentEvents: [] as AnalyticsEvent[],
-    };
+    return emptyDashboard(range);
   }
 
-  const [events24h, events7d] = await Promise.all([
-    fetchEvents(accessToken, sinceHours(24), 2000),
-    fetchEvents(accessToken, sinceDays(7), 5000),
-  ]);
+  const events = await fetchEvents(accessToken, range);
 
-  const pageViews24h = events24h.filter((event) => event.event_type === 'page_view');
-  const whatsappClicks24h = events24h.filter((event) => event.event_type === 'whatsapp_click');
+  const pageViews = events.filter((event) => event.event_type === 'page_view');
+  const whatsappClicks = events.filter((event) => event.event_type === 'whatsapp_click');
 
-  const pageViews7d = events7d.filter((event) => event.event_type === 'page_view');
-  const whatsappClicks7d = events7d.filter((event) => event.event_type === 'whatsapp_click');
-
-  const uniqueVisitors24h = new Set(
-    events24h.map((event) => event.visitor_id).filter(Boolean),
+  const uniqueVisitors = new Set(
+    events.map((event) => event.visitor_id).filter(Boolean),
   ).size;
 
-  const devices = countBy(events24h, (event) => event.device_type);
-  const referrers = countBy(events24h, (event) => event.referrer);
-  const topPages = countBy(pageViews24h, (event) => event.page_path).slice(0, 7);
+  const devices = countBy(events, (event) => event.device_type);
+  const referrers = countBy(events, (event) => event.referrer);
+  const topPages = countBy(pageViews, (event) => event.page_path).slice(0, 7);
   const topWhatsappButtons = countBy(
-    whatsappClicks24h,
+    whatsappClicks,
     (event) => event.element_label || event.page_path,
   ).slice(0, 7);
 
+  const rangeOption = analyticsRangeOptions.find((item) => item.value === range) ?? analyticsRangeOptions[0];
+
   return {
-    pageViews24h: pageViews24h.length,
-    uniqueVisitors24h,
-    whatsappClicks24h: whatsappClicks24h.length,
-    conversionRate24h: percentage(whatsappClicks24h.length, uniqueVisitors24h),
-    pageViews7d: pageViews7d.length,
-    whatsappClicks7d: whatsappClicks7d.length,
+    selectedRange: range,
+    rangeLabel: rangeOption.label,
+    pageViews: pageViews.length,
+    uniqueVisitors,
+    whatsappClicks: whatsappClicks.length,
+    conversionRate: percentage(whatsappClicks.length, uniqueVisitors),
     mainDevice: devices[0]?.label ?? 'Sin datos',
     mainReferrer: referrers[0]?.label ?? 'Sin datos',
     topPages,
     topWhatsappButtons,
     devices,
     referrers,
-    recentEvents: events24h.slice(0, 12),
+    hourlyActivity: getHourlyActivity(events),
+    recentEvents: events.slice(0, 14),
   };
 }
 
