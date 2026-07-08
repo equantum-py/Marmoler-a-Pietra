@@ -2,10 +2,16 @@ import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
 import type { ComponentPropsWithoutRef } from 'react';
 import { whatsappUrl } from '@/lib/whatsapp';
 
-export function WhatsappLink({ message, children, className = '', ...props }: ComponentPropsWithoutRef<'a'> & { message: string }) {
+export function WhatsappLink({
+  message,
+  children,
+  whatsappNumber,
+  className = '',
+  ...props
+}: ComponentPropsWithoutRef<'a'> & { message: string; whatsappNumber?: string | null }) {
   return (
     <a
-      href={whatsappUrl(message)}
+      href={whatsappUrl(message, whatsappNumber)}
       target="_blank"
       rel="noreferrer"
       className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-pietra-green px-5 py-3 text-sm font-bold text-white shadow-soft transition duration-300 hover:bg-pietra-sage ${className}`}

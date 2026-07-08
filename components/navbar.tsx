@@ -20,6 +20,7 @@ type SiteSettings = {
   logo_desktop?: string | null;
   logo_mobile?: string | null;
   instagram?: string | null;
+  whatsapp?: string | null;
 };
 
 async function getPublicSiteSettings() {
@@ -29,7 +30,7 @@ async function getPublicSiteSettings() {
   if (!url || !key) return null;
 
   try {
-    const response = await fetch(`${url}/rest/v1/site_settings?id=eq.pietra&select=logo_desktop,logo_mobile,instagram&limit=1`, {
+    const response = await fetch(`${url}/rest/v1/site_settings?id=eq.pietra&select=logo_desktop,logo_mobile,instagram,whatsapp&limit=1`, {
       headers: {
         apikey: key,
         Authorization: `Bearer ${key}`,
@@ -51,12 +52,14 @@ export function Navbar() {
   const [logoDesktop, setLogoDesktop] = useState(FALLBACK_LOGO);
   const [logoMobile, setLogoMobile] = useState(FALLBACK_LOGO);
   const [instagramUrl, setInstagramUrl] = useState('https://www.instagram.com/marmoleria_pietra');
+  const [whatsappNumber, setWhatsappNumber] = useState('595984756158');
 
   useEffect(() => {
     getPublicSiteSettings().then((settings) => {
       if (settings?.logo_desktop) setLogoDesktop(settings.logo_desktop);
       if (settings?.logo_mobile) setLogoMobile(settings.logo_mobile);
       if (settings?.instagram) setInstagramUrl(settings.instagram);
+      if (settings?.whatsapp) setWhatsappNumber(settings.whatsapp);
     });
   }, []);
 
@@ -151,7 +154,7 @@ export function Navbar() {
           <Link href="/proyectos" className="text-sm font-bold text-pietra-ink hover:text-pietra-green">
             Proyectos
           </Link>
-          <WhatsappLink message="Hola, quiero cotizar con Marmolería Pietra." className="px-5 py-3">
+          <WhatsappLink whatsappNumber={whatsappNumber} message="Hola, quiero cotizar con Marmolería Pietra." className="px-5 py-3">
             WhatsApp
           </WhatsappLink>
         </div>

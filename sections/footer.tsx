@@ -15,12 +15,12 @@ export async function Footer() {
 
   const logo = settings?.logo_desktop || settings?.logo_mobile || '/logo-pietra.svg';
   const companyName = settings?.company_name || 'Marmolería Pietra';
-  const email = settings?.email || 'info@marmoleriapietra.com.py';
-  const whatsapp = settings?.whatsapp || '+595 981 123 456';
-  const address = settings?.address || 'Asunción, Paraguay';
-  const instagram = settings?.instagram || 'https://instagram.com';
+  const email = settings?.email || '';
+  const whatsapp = settings?.whatsapp || '';
+  const address = settings?.address || '';
+  const instagram = settings?.instagram || '';
 
-  const whatsappNumber = whatsapp.replace(/\D/g, '');
+  const whatsappNumber = whatsapp ? whatsapp.replace(/\D/g, '') : '';
 
   return (
     <footer id="contacto" className="bg-[#1F1F1C] text-white">
@@ -67,20 +67,26 @@ export async function Footer() {
           </h3>
 
           <ul className="mt-6 space-y-4 text-sm text-white/70">
-            <li className="flex items-center gap-3">
-              <Phone className="h-4 w-4 text-white" />
-              <span>{whatsapp}</span>
-            </li>
+            {whatsapp && (
+              <li className="flex items-center gap-3">
+                <Phone className="h-4 w-4 text-white" />
+                <span>{whatsapp}</span>
+              </li>
+            )}
 
-            <li className="flex items-center gap-3">
-              <Mail className="h-4 w-4 text-white" />
-              <span>{email}</span>
-            </li>
+            {email && (
+              <li className="flex items-center gap-3">
+                <Mail className="h-4 w-4 text-white" />
+                <span>{email}</span>
+              </li>
+            )}
 
-            <li className="flex items-center gap-3">
-              <MapPin className="h-4 w-4 text-white" />
-              <span>{address}</span>
-            </li>
+            {address && (
+              <li className="flex items-center gap-3">
+                <MapPin className="h-4 w-4 text-white" />
+                <span>{address}</span>
+              </li>
+            )}
           </ul>
         </div>
 
@@ -90,29 +96,33 @@ export async function Footer() {
           </h3>
 
           <ul className="mt-6 space-y-4 text-sm text-white/70">
-            <li>
-              <a
-                href={instagram}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-3 transition hover:text-white"
-              >
-                <Instagram className="h-4 w-4 text-white" />
-                Instagram
-              </a>
-            </li>
+            {instagram && (
+              <li>
+                <a
+                  href={instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-3 transition hover:text-white"
+                >
+                  <Instagram className="h-4 w-4 text-white" />
+                  Instagram
+                </a>
+              </li>
+            )}
 
-            <li>
-              <a
-                href={`https://wa.me/${whatsappNumber}`}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-3 transition hover:text-white"
-              >
-                <MessageCircle className="h-4 w-4 text-white" />
-                WhatsApp
-              </a>
-            </li>
+            {whatsappNumber && (
+              <li>
+                <a
+                  href={`https://wa.me/${whatsappNumber}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-3 transition hover:text-white"
+                >
+                  <MessageCircle className="h-4 w-4 text-white" />
+                  WhatsApp
+                </a>
+              </li>
+            )}
           </ul>
         </div>
       </div>
