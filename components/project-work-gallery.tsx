@@ -9,13 +9,13 @@ import {
   projectWorks,
   type ProjectWorkCategory,
 } from '@/data/project-works';
-import { whatsappUrl } from '@/lib/whatsapp';
+import { buildWhatsappUrl } from '@/lib/whatsapp';
 
 type FilterValue = 'Todos' | ProjectWorkCategory;
 
 const filters: FilterValue[] = ['Todos', ...projectCategories];
 
-export function ProjectWorkGallery() {
+export function ProjectWorkGallery({ whatsappNumber }: { whatsappNumber?: string | null }) {
   const [activeFilter, setActiveFilter] = useState<FilterValue>('Todos');
 
   const filteredProjects = useMemo(() => {
@@ -106,7 +106,7 @@ export function ProjectWorkGallery() {
               </p>
 
               <a
-                href={whatsappUrl(`Hola Pietra, quiero cotizar un proyecto similar a: ${project.title}.`)}
+                href={buildWhatsappUrl(`Hola Pietra, quiero cotizar un proyecto similar a: ${project.title}.`, whatsappNumber)}
                 target="_blank"
                 rel="noreferrer"
                 className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-pietra-green px-5 text-sm font-bold text-white transition hover:bg-pietra-sage"

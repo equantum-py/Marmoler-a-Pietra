@@ -2,10 +2,14 @@ import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { SectionHeading } from '@/components/section-heading';
 import { getPublishedHomeCategories } from '@/lib/categories/public-categories';
-import { whatsappUrl } from '@/lib/whatsapp';
+import { buildWhatsappUrl } from '@/lib/whatsapp';
+import { getPublicSiteSettings } from '@/lib/site-settings';
 
 export async function Categories() {
-  const categories = await getPublishedHomeCategories();
+  const [categories, settings] = await Promise.all([
+    getPublishedHomeCategories(),
+    getPublicSiteSettings(),
+  ]);
 
   if (!categories.length) {
     return null;
@@ -24,9 +28,10 @@ export async function Categories() {
           {categories.map((category) => {
             const href =
               category.href ||
-              whatsappUrl(
+              buildWhatsappUrl(
                 category.whatsapp_message ||
                   `Hola, quiero cotizar ${category.name} con Marmolería Pietra.`,
+                settings.whatsapp_number,
               );
 
             const image = category.mobile_image_url || category.image_url;

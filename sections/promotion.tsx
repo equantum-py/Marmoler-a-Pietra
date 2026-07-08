@@ -1,14 +1,18 @@
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { getPublishedHomePromoCards } from '@/lib/promo-cards/public-promo-cards';
-import { whatsappUrl } from '@/lib/whatsapp';
+import { buildWhatsappUrl } from '@/lib/whatsapp';
+import { getPublicSiteSettings } from '@/lib/site-settings';
 
 function getLinkTarget(url: string) {
   return url.startsWith('http') ? '_blank' : undefined;
 }
 
 export async function Promotion() {
-  const promoCards = await getPublishedHomePromoCards();
+  const [promoCards, settings] = await Promise.all([
+    getPublishedHomePromoCards(),
+    getPublicSiteSettings(),
+  ]);
 
   if (!promoCards.length) {
     return null;
@@ -21,9 +25,10 @@ export async function Promotion() {
           {promoCards.map((banner) => {
             const href =
               banner.href ||
-              whatsappUrl(
+              buildWhatsappUrl(
                 banner.whatsapp_message ||
                   `Hola, quiero consultar por ${banner.title} en Marmolería Pietra.`,
+                settings.whatsapp_number,
               );
 
             const image = banner.mobile_image_url || banner.image_url;

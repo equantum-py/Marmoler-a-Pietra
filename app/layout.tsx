@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import '@/styles/globals.css';
 import { AnalyticsTracker } from '@/components/analytics-tracker';
+import { getPublicSiteSettings } from '@/lib/site-settings';
 
 const display = Cormorant_Garamond({
   subsets: ['latin'],
@@ -17,33 +18,42 @@ const sans = Manrope({
   display: 'swap',
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://marmoleriapietra.com'),
-  title: {
-    default: 'Marmolería Pietra | Mármol, Granito y Cuarzo Premium en Paraguay',
-    template: '%s | Marmolería Pietra',
-  },
-  description:
-    'Diseño, fabricación e instalación premium de mesadas de granito, mármol, cuarzo, revestimientos y piedra traslúcida en Paraguay.',
-  keywords: [
-    'marmolería Paraguay',
-    'granito premium',
-    'mármol para cocina',
-    'mesadas de granito',
-    'revestimientos premium',
-    'piedra sinterizada',
-    'cuarzo Paraguay',
-  ],
-  openGraph: {
-    title: 'Marmolería Pietra | Diseño en piedra premium',
-    description: 'Espacios a medida en mármol, granito, cuarzo y piedra traslúcida en Paraguay.',
-    url: 'https://marmoleriapietra.com',
-    siteName: 'Marmolería Pietra',
-    locale: 'es_PY',
-    type: 'website',
-  },
-  robots: { index: true, follow: true },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getPublicSiteSettings();
+  const title = settings.seo_title || 'Marmolería Pietra | Mármol, Granito y Cuarzo Premium en Paraguay';
+  const description =
+    settings.seo_description ||
+    'Diseño, fabricación e instalación premium de mesadas de granito, mármol, cuarzo, revestimientos y piedra traslúcida en Paraguay.';
+  const siteName = settings.company_name || 'Marmolería Pietra';
+
+  return {
+    metadataBase: new URL('https://marmoleriapietra.com'),
+    title: {
+      default: title,
+      template: `%s | ${siteName}`,
+    },
+    description,
+    keywords: [
+      'marmolería Paraguay',
+      'granito premium',
+      'mármol para cocina',
+      'mesadas de granito',
+      'revestimientos premium',
+      'piedra sinterizada',
+      'cuarzo Paraguay',
+    ],
+    icons: settings.favicon_url ? { icon: settings.favicon_url } : undefined,
+    openGraph: {
+      title,
+      description,
+      url: 'https://marmoleriapietra.com',
+      siteName,
+      locale: 'es_PY',
+      type: 'website',
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
