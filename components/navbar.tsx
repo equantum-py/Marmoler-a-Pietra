@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronDown, Menu, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { WhatsappLink } from '@/components/whatsapp-link';
+import { buildWhatsappUrl } from '@/lib/whatsapp';
 
 const menuLinks = [
   { label: 'Home', href: '/#inicio' },
@@ -19,7 +19,8 @@ const FALLBACK_LOGO = '/logo-pietra.svg';
 type SiteSettings = {
   logo_desktop?: string | null;
   logo_mobile?: string | null;
-  instagram?: string | null;
+  instagram_url?: string | null;
+  whatsapp_number?: string | null;
 };
 
 async function getPublicSiteSettings() {
@@ -29,7 +30,7 @@ async function getPublicSiteSettings() {
   if (!url || !key) return null;
 
   try {
-    const response = await fetch(`${url}/rest/v1/site_settings?id=eq.pietra&select=logo_desktop,logo_mobile,instagram&limit=1`, {
+    const response = await fetch(`${url}/rest/v1/site_settings?id=eq.pietra&select=logo_desktop,logo_mobile,instagram_url,whatsapp_number&limit=1`, {
       headers: {
         apikey: key,
         Authorization: `Bearer ${key}`,
@@ -51,12 +52,20 @@ export function Navbar() {
   const [logoDesktop, setLogoDesktop] = useState(FALLBACK_LOGO);
   const [logoMobile, setLogoMobile] = useState(FALLBACK_LOGO);
   const [instagramUrl, setInstagramUrl] = useState('https://www.instagram.com/marmoleria_pietra');
+  const [whatsappHref, setWhatsappHref] = useState(
+    buildWhatsappUrl('Hola, quiero cotizar con Marmolería Pietra.'),
+  );
 
   useEffect(() => {
     getPublicSiteSettings().then((settings) => {
       if (settings?.logo_desktop) setLogoDesktop(settings.logo_desktop);
       if (settings?.logo_mobile) setLogoMobile(settings.logo_mobile);
-      if (settings?.instagram) setInstagramUrl(settings.instagram);
+      if (settings?.instagram_url) setInstagramUrl(settings.instagram_url);
+      if (settings?.whatsapp_number) {
+        setWhatsappHref(
+          buildWhatsappUrl('Hola, quiero cotizar con Marmolería Pietra.', settings.whatsapp_number),
+        );
+      }
     });
   }, []);
 
@@ -151,9 +160,14 @@ export function Navbar() {
           <Link href="/proyectos" className="text-sm font-bold text-pietra-ink hover:text-pietra-green">
             Proyectos
           </Link>
-          <WhatsappLink message="Hola, quiero cotizar con Marmolería Pietra." className="px-5 py-3">
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-pietra-green px-5 py-3 text-sm font-bold text-white shadow-soft transition duration-300 hover:bg-pietra-sage"
+          >
             WhatsApp
-          </WhatsappLink>
+          </a>
         </div>
       </div>
 

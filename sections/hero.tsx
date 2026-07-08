@@ -1,14 +1,18 @@
 import { ArrowRight } from 'lucide-react';
 import { sidebarCategories } from '@/data/site';
 import { fallbackHomeBanner, getHomeBannerByPlacement } from '@/lib/banners/public-banners';
-import { whatsappUrl } from '@/lib/whatsapp';
+import { buildWhatsappUrl } from '@/lib/whatsapp';
+import { getPublicSiteSettings } from '@/lib/site-settings';
 
 function getLinkTarget(url: string) {
   return url.startsWith('http') ? '_blank' : undefined;
 }
 
 export async function Hero() {
-  const bannerRecord = await getHomeBannerByPlacement('hero');
+  const [bannerRecord, settings] = await Promise.all([
+    getHomeBannerByPlacement('hero'),
+    getPublicSiteSettings(),
+  ]);
   const banner = bannerRecord ?? fallbackHomeBanner;
 
   const desktopImage = banner.desktop_image_url || fallbackHomeBanner.desktop_image_url;
@@ -38,7 +42,7 @@ export async function Hero() {
           {sidebarCategories.slice(0, 8).map((category) => (
             <a
               key={category.name}
-              href={whatsappUrl(category.message)}
+              href={buildWhatsappUrl(category.message, settings.whatsapp_number)}
               target="_blank"
               rel="noreferrer"
               className="shrink-0 rounded-full border border-pietra-border bg-white px-3.5 py-1.5 text-[11px] font-bold text-pietra-green shadow-sm"
@@ -62,7 +66,7 @@ export async function Hero() {
             {sidebarCategories.map((category) => (
               <a
                 key={category.name}
-                href={whatsappUrl(category.message)}
+                href={buildWhatsappUrl(category.message, settings.whatsapp_number)}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center justify-between px-5 py-3 text-sm font-semibold text-pietra-ink transition hover:bg-pietra-background hover:text-pietra-green"

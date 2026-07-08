@@ -15,7 +15,8 @@ import { FloatingWhatsapp } from '@/components/floating-whatsapp';
 import { MaterialCard } from '@/components/material-card';
 import { Navbar } from '@/components/navbar';
 import { WhatsappLink } from '@/components/whatsapp-link';
-import { whatsappUrl } from '@/lib/whatsapp';
+import { buildWhatsappUrl } from '@/lib/whatsapp';
+import { getPublicSiteSettings } from '@/lib/site-settings';
 import { Footer } from '@/sections/footer';
 import {
   getPublicMaterialBySlug,
@@ -199,7 +200,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function MaterialPage({ params }: PageProps) {
   const { slug } = await resolveParams(params);
-  const material = await getPublicMaterialBySlug(slug);
+  const [material, settings] = await Promise.all([
+    getPublicMaterialBySlug(slug),
+    getPublicSiteSettings(),
+  ]);
 
   if (!material) {
     notFound();
@@ -372,7 +376,7 @@ export default async function MaterialPage({ params }: PageProps) {
                 </p>
 
                 <a
-                  href={whatsappUrl(whatsappMessage)}
+                  href={buildWhatsappUrl(whatsappMessage, settings.whatsapp_number)}
                   target="_blank"
                   rel="noreferrer"
                   className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#D9C7AA] px-6 py-3 text-sm font-bold text-[#1F1F1C] shadow-soft transition duration-300 hover:bg-[#C4B5A0]"
@@ -541,7 +545,7 @@ export default async function MaterialPage({ params }: PageProps) {
               </div>
 
               <a
-                href={whatsappUrl(whatsappMessage)}
+                href={buildWhatsappUrl(whatsappMessage, settings.whatsapp_number)}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#D9C7AA] px-7 py-4 text-sm font-bold text-[#1F1F1C] shadow-soft transition duration-300 hover:bg-[#C4B5A0]"

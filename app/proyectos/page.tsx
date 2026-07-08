@@ -6,7 +6,8 @@ import { Navbar } from '@/components/navbar';
 import { ProjectWorkGallery } from '@/components/project-work-gallery';
 import { Footer } from '@/sections/footer';
 import { projectWorks } from '@/data/project-works';
-import { whatsappUrl } from '@/lib/whatsapp';
+import { buildWhatsappUrl } from '@/lib/whatsapp';
+import { getPublicSiteSettings } from '@/lib/site-settings';
 
 export const metadata: Metadata = {
   title: 'Trabajos realizados | Marmolería Pietra',
@@ -14,7 +15,8 @@ export const metadata: Metadata = {
     'Conocé trabajos realizados por Marmolería Pietra en cocinas, baños y quinchos con superficies a medida.',
 };
 
-export default function ProyectosPage() {
+export default async function ProyectosPage() {
+  const settings = await getPublicSiteSettings();
   const cocinaCount = projectWorks.filter((project) => project.category === 'Cocinas').length;
   const banoCount = projectWorks.filter((project) => project.category === 'Baños').length;
   const quinchoCount = projectWorks.filter((project) => project.category === 'Quinchos').length;
@@ -81,7 +83,7 @@ export default function ProyectosPage() {
           </div>
         </section>
 
-        <ProjectWorkGallery />
+        <ProjectWorkGallery whatsappNumber={settings.whatsapp_number} />
 
         <section className="luxe-container pb-16">
           <div className="rounded-[2rem] bg-[#1F1F1C] p-8 text-white md:p-10">
@@ -99,7 +101,7 @@ export default function ProyectosPage() {
               </div>
 
               <a
-                href={whatsappUrl('Hola Pietra, quiero cotizar un proyecto a medida.')}
+                href={buildWhatsappUrl('Hola Pietra, quiero cotizar un proyecto a medida.', settings.whatsapp_number)}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-[#D9C7AA] px-7 text-sm font-bold text-[#1F1F1C] transition hover:bg-[#C4B5A0]"

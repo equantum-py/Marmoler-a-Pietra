@@ -13,14 +13,16 @@ const serviceLinks = [
 export async function Footer() {
   const settings = await getPublicSiteSettings();
 
-  const logo = settings?.logo_desktop || settings?.logo_mobile || '/logo-pietra.svg';
-  const companyName = settings?.company_name || 'Marmolería Pietra';
-  const email = settings?.email || 'info@marmoleriapietra.com.py';
-  const whatsapp = settings?.whatsapp || '+595 981 123 456';
-  const address = settings?.address || 'Asunción, Paraguay';
-  const instagram = settings?.instagram || 'https://instagram.com';
-
-  const whatsappNumber = whatsapp.replace(/\D/g, '');
+  const logo = settings.logo_desktop || settings.logo_mobile || settings.logo_url || '/logo-pietra.svg';
+  const companyName = settings.company_name || 'Marmolería Pietra';
+  const email = settings.email || 'info@marmoleriapietra.com.py';
+  const phone = settings.phone || settings.whatsapp_number || '+595 984 756 158';
+  const address = settings.address || 'Asunción, Paraguay';
+  const instagram = settings.instagram_url || 'https://www.instagram.com/marmoleria_pietra';
+  const footerText =
+    settings.footer_text ||
+    'Especialistas en mármol, granito, cuarzo y piedras sinterizadas. Diseñamos, fabricamos e instalamos superficies premium en todo Paraguay.';
+  const whatsappNumber = settings.whatsapp_number || phone.replace(/\D/g, '');
 
   return (
     <footer id="contacto" className="bg-[#1F1F1C] text-white">
@@ -40,8 +42,7 @@ export async function Footer() {
           </Link>
 
           <p className="mt-7 max-w-sm text-sm leading-7 text-white/70">
-            Especialistas en mármol, granito, cuarzo y piedras sinterizadas.
-            Diseñamos, fabricamos e instalamos superficies premium en todo Paraguay.
+            {footerText}
           </p>
         </div>
 
@@ -69,7 +70,7 @@ export async function Footer() {
           <ul className="mt-6 space-y-4 text-sm text-white/70">
             <li className="flex items-center gap-3">
               <Phone className="h-4 w-4 text-white" />
-              <span>{whatsapp}</span>
+              <span>{phone}</span>
             </li>
 
             <li className="flex items-center gap-3">

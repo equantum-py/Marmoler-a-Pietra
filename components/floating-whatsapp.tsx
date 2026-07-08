@@ -1,10 +1,12 @@
 import { WhatsappIcon } from '@/components/icons/whatsapp-icon';
-import { whatsappUrl } from '@/lib/whatsapp';
+import { getWhatsappUrl } from '@/lib/whatsapp-server';
 
-export function FloatingWhatsapp() {
+export async function FloatingWhatsapp() {
+  const href = await getWhatsappUrl('Hola, quiero cotizar un proyecto con Marmolería Pietra.');
+
   return (
     <a
-      href={whatsappUrl('Hola, quiero cotizar un proyecto con Marmolería Pietra.')}
+      href={href}
       target="_blank"
       rel="noreferrer"
       aria-label="Cotizar por WhatsApp"
