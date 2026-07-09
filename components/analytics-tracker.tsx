@@ -4,16 +4,17 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 type AnalyticsEvent = {
-  event_type: 'page_view' | 'whatsapp_click' | 'material_view';
+  event_type: 'page_view' | 'whatsapp_click';
   page_path: string;
   page_title?: string;
+  page?: string;
+  context?: string;
   element_label?: string;
   element_href?: string;
   device_type?: string;
   referrer?: string;
   visitor_id?: string;
   session_id?: string;
-  metadata?: Record<string, unknown>;
 };
 
 function shouldTrackPath(pathname: string) {
@@ -73,6 +74,22 @@ function getReferrer() {
   }
 }
 
+/**
+ * CORRECCIÓN 4: Detectar contexto de la página
+ * /materiales/calacatta → context: "material"
+ * /proyectos/cocina-premium → context: "proyecto"
+ * /contacto → context: "contacto"
+ * / → context: "home"
+ */
+function getPageContext(pathname: string): string {
+  if (pathname.startsWith('/materiales/')) return 'material';
+  if (pathname.startsWith('/proyectos/')) return 'proyecto';
+  if (pathname.startsWith('/contacto')) return 'contacto';
+  if (pathname === '/') return 'home';
+
+  return 'otro';
+}
+
 function sendAnalyticsEvent(event: AnalyticsEvent) {
   if (typeof window === 'undefined') return;
 
@@ -114,6 +131,11 @@ function getClickableLabel(element: HTMLAnchorElement) {
 export function AnalyticsTracker() {
   const pathname = usePathname();
 
+  /**
+   * CORRECCIÓN 3: usePathname() detecta cambios de ruta en Next.js App Router
+   * Registra navegación como eventos independientes
+   * Home → Materiales → Proyecto → Contacto (todos son page_view separados)
+   */
   useEffect(() => {
     if (!pathname || !shouldTrackPath(pathname)) return;
 
@@ -137,9 +159,19 @@ export function AnalyticsTracker() {
       if (!(link instanceof HTMLAnchorElement)) return;
       if (!isWhatsappLink(link.href)) return;
 
+      /**
+       * CORRECCIÓN 4: Incluir page + context en whatsapp_click
+       * page: ruta actual donde se hizo clic
+       * context: tipo de página (material, proyecto, contacto, etc)
+       */
+      const currentPath = `${pathname}${window.location.search || ''}`;
+      const context = getPageContext(pathname);
+
       sendAnalyticsEvent({
         event_type: 'whatsapp_click',
-        page_path: window.location.pathname + window.location.search,
+        page: currentPath,
+        page_path: currentPath,
+        context: context,
         page_title: document.title,
         element_label: getClickableLabel(link),
         element_href: link.href,
@@ -151,7 +183,7 @@ export function AnalyticsTracker() {
     return () => {
       document.removeEventListener('click', handleClick, { capture: true });
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }
