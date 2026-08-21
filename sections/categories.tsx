@@ -15,6 +15,16 @@ export async function Categories() {
     return null;
   }
 
+  const environmentPriority = ['cocinas', 'baños', 'quinchos', 'revestimientos'];
+  const orderedCategories = [...categories].sort((a, b) => {
+    const aIndex = environmentPriority.indexOf(a.name.toLocaleLowerCase('es'));
+    const bIndex = environmentPriority.indexOf(b.name.toLocaleLowerCase('es'));
+    return (
+      (aIndex === -1 ? environmentPriority.length : aIndex) -
+      (bIndex === -1 ? environmentPriority.length : bIndex)
+    );
+  });
+
   return (
     <section id="ambientes" className="bg-pietra-background py-8 md:py-12">
       <div className="luxe-container">
@@ -24,8 +34,8 @@ export async function Categories() {
           </SectionHeading>
         </div>
 
-        <div className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex sm:flex-wrap sm:justify-center sm:gap-4 sm:overflow-visible sm:px-0 lg:gap-5">
-          {categories.map((category) => {
+        <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center sm:gap-4 lg:gap-5">
+          {orderedCategories.map((category) => {
             const href =
               category.href ||
               buildWhatsappUrl(
@@ -42,7 +52,7 @@ export async function Categories() {
                 href={href}
                 target={href.startsWith('http') ? '_blank' : undefined}
                 rel={href.startsWith('http') ? 'noreferrer' : undefined}
-                className="group relative h-[128px] w-[68vw] shrink-0 snap-start overflow-hidden rounded-xl border border-pietra-border bg-white shadow-card sm:h-[170px] sm:w-[calc(50%-0.5rem)] sm:shrink md:w-[260px] lg:h-[180px] lg:w-[250px] xl:w-[270px]"
+                className="group relative h-[152px] min-w-0 overflow-hidden rounded-xl border border-pietra-border bg-white shadow-card sm:h-[170px] sm:w-[calc(50%-0.5rem)] md:w-[260px] lg:h-[180px] lg:w-[250px] xl:w-[270px]"
               >
                 <Image
                   src={image}
@@ -50,17 +60,17 @@ export async function Categories() {
                   fill
                   unoptimized
                   className="object-cover transition duration-500 group-hover:scale-105"
-                  sizes="(min-width: 1280px) 270px, (min-width: 1024px) 250px, (min-width: 768px) 260px, 68vw"
+                  sizes="(min-width: 1280px) 270px, (min-width: 1024px) 250px, (min-width: 768px) 260px, 50vw"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-pietra-ink/85 via-pietra-ink/25 to-transparent" />
 
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white md:p-5">
-                  <p className="mb-1 text-[8px] font-extrabold uppercase tracking-[0.18em] text-white/75 md:text-[10px]">
+                  <p className="mb-1 text-[10px] font-extrabold uppercase tracking-[0.16em] text-white/80">
                     Ambiente
                   </p>
 
-                  <h3 className="text-base font-extrabold uppercase leading-tight md:text-lg">
+                  <h3 className="text-[15px] font-extrabold uppercase leading-tight min-[390px]:text-base md:text-lg">
                     {category.name}
                   </h3>
 
