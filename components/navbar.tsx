@@ -14,11 +14,9 @@ const menuLinks = [
   { label: 'Contacto', href: '/#contacto' },
 ];
 
-const FALLBACK_LOGO = '/logo-pietra.svg';
+const OFFICIAL_LOGO = '/images/logo/logo_correcto_v2 (1).png';
 
 type SiteSettings = {
-  logo_desktop?: string | null;
-  logo_mobile?: string | null;
   instagram_url?: string | null;
   whatsapp_number?: string | null;
 };
@@ -30,17 +28,19 @@ async function getPublicSiteSettings() {
   if (!url || !key) return null;
 
   try {
-    const response = await fetch(`${url}/rest/v1/site_settings?id=eq.pietra&select=logo_desktop,logo_mobile,instagram_url,whatsapp_number&limit=1`, {
-      headers: {
-        apikey: key,
-        Authorization: `Bearer ${key}`,
+    const response = await fetch(
+      `${url}/rest/v1/site_settings?id=eq.pietra&select=instagram_url,whatsapp_number&limit=1`,
+      {
+        headers: {
+          apikey: key,
+          Authorization: `Bearer ${key}`,
+        },
       },
-    });
+    );
 
     if (!response.ok) return null;
 
     const rows = await response.json();
-
     return Array.isArray(rows) ? (rows[0] as SiteSettings | undefined) ?? null : null;
   } catch {
     return null;
@@ -49,8 +49,6 @@ async function getPublicSiteSettings() {
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
-  const [logoDesktop, setLogoDesktop] = useState(FALLBACK_LOGO);
-  const [logoMobile, setLogoMobile] = useState(FALLBACK_LOGO);
   const [instagramUrl, setInstagramUrl] = useState('https://www.instagram.com/marmoleria_pietra');
   const [whatsappHref, setWhatsappHref] = useState(
     buildWhatsappUrl('Hola, quiero cotizar con Marmolería Pietra.'),
@@ -58,8 +56,6 @@ export function Navbar() {
 
   useEffect(() => {
     getPublicSiteSettings().then((settings) => {
-      if (settings?.logo_desktop) setLogoDesktop(settings.logo_desktop);
-      if (settings?.logo_mobile) setLogoMobile(settings.logo_mobile);
       if (settings?.instagram_url) setInstagramUrl(settings.instagram_url);
       if (settings?.whatsapp_number) {
         setWhatsappHref(
@@ -97,27 +93,17 @@ export function Navbar() {
         <div className="flex items-center justify-between gap-4">
           <Link
             href="/#inicio"
-            className="relative block h-[54px] w-[170px] md:h-[64px] md:w-[230px] lg:w-[240px]"
+            className="relative block h-[54px] w-[180px] md:h-[64px] md:w-[240px] lg:w-[250px]"
             aria-label="Marmolería Pietra"
           >
             <Image
-              src={logoDesktop}
+              src={OFFICIAL_LOGO}
               alt="Marmolería Pietra"
               fill
               priority
               unoptimized
-              className="hidden object-contain object-left md:block"
-              sizes="240px"
-            />
-
-            <Image
-              src={logoMobile}
-              alt="Marmolería Pietra"
-              fill
-              priority
-              unoptimized
-              className="object-contain object-left md:hidden"
-              sizes="170px"
+              className="object-contain object-left"
+              sizes="(min-width: 1024px) 250px, (min-width: 768px) 240px, 180px"
             />
           </Link>
 
