@@ -13,6 +13,16 @@ export const metadata: Metadata = {
   title: 'Trabajos realizados | Marmolería Pietra',
   description:
     'Conocé trabajos realizados por Marmolería Pietra en cocinas, baños y quinchos con superficies a medida.',
+  alternates: {
+    canonical: '/proyectos',
+  },
+  openGraph: {
+    title: 'Trabajos realizados | Marmolería Pietra',
+    description:
+      'Proyectos reales de cocinas, baños y quinchos con mármol, granito, cuarzo y superficies a medida en Paraguay.',
+    url: '/proyectos',
+    type: 'website',
+  },
 };
 
 export default async function ProyectosPage() {
