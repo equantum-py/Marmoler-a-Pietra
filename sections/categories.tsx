@@ -28,17 +28,17 @@ export async function Categories() {
   return (
     <section
       id="ambientes"
-      className="bg-pietra-background py-8 md:py-12"
+      className="bg-pietra-background py-6 sm:py-8 md:py-12"
       aria-label="Ambientes"
     >
       <div className="luxe-container">
-        <div className="mb-5 md:mb-7">
+        <div className="mb-4 sm:mb-5 md:mb-7">
           <SectionHeading title="Inspiración real para decidir mejor.">
             Elegí por ambiente y cotizá más rápido tu cocina, baño, quincho o revestimiento.
           </SectionHeading>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center sm:gap-4 lg:gap-5">
+        <div className="grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:justify-center sm:gap-4 lg:gap-5">
           {orderedCategories.map((category) => {
             const href =
               category.href ||
@@ -57,7 +57,7 @@ export async function Categories() {
                 target={href.startsWith('http') ? '_blank' : undefined}
                 rel={href.startsWith('http') ? 'noreferrer' : undefined}
                 aria-label={`Ver opciones de ${category.name}`}
-                className="group relative h-[164px] min-w-0 overflow-hidden rounded-xl border border-pietra-border bg-white shadow-card transition duration-300 active:scale-[0.99] hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pietra-green sm:h-[174px] sm:w-[calc(50%-0.5rem)] md:w-[260px] lg:h-[180px] lg:w-[250px] xl:w-[270px]"
+                className="group relative h-[146px] min-w-0 overflow-hidden rounded-xl border border-pietra-border bg-white shadow-card transition duration-300 active:scale-[0.99] hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pietra-green min-[390px]:h-[154px] sm:h-[174px] sm:w-[calc(50%-0.5rem)] md:w-[260px] lg:h-[180px] lg:w-[250px] xl:w-[270px]"
               >
                 <Image
                   src={image}
@@ -73,16 +73,16 @@ export async function Categories() {
                   aria-hidden="true"
                 />
 
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-white md:p-5">
-                  <p className="mb-1 text-xs font-extrabold uppercase tracking-[0.12em] text-white">
+                <div className="absolute bottom-0 left-0 right-0 p-3.5 text-white sm:p-4 md:p-5">
+                  <p className="mb-0.5 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white sm:mb-1 sm:text-xs">
                     Ambiente
                   </p>
 
-                  <h3 className="text-[17px] font-extrabold uppercase leading-tight md:text-lg">
+                  <h3 className="text-[15px] font-extrabold uppercase leading-tight min-[390px]:text-base md:text-lg">
                     {category.name}
                   </h3>
 
-                  <p className="mt-1.5 flex items-center gap-1.5 text-[13px] font-semibold text-white md:text-sm">
+                  <p className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-white min-[390px]:text-[13px] md:mt-1.5 md:text-sm">
                     Ver opciones <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
                   </p>
                 </div>
