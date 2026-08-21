@@ -33,6 +33,8 @@ export async function Hero() {
         src={desktopImage}
         alt={altText}
         loading="eager"
+        fetchPriority="high"
+        decoding="async"
         className="home-banner-image"
       />
     </picture>
