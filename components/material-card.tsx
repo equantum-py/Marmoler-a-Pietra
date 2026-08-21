@@ -21,7 +21,7 @@ export function MaterialCard({ material, className = '' }: MaterialCardProps) {
     >
       <Link
         href={`/materiales/${material.slug}`}
-        className="block h-full focus:outline-none focus:ring-2 focus:ring-pietra-green"
+        className="block h-full rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-pietra-green"
         aria-label={`Ver material ${material.name}`}
       >
         <div className="relative h-36 overflow-hidden bg-pietra-warm md:h-52">
@@ -36,23 +36,23 @@ export function MaterialCard({ material, className = '' }: MaterialCardProps) {
             <div className="h-full w-full bg-gradient-to-br from-pietra-border to-pietra-warm" />
           )}
 
-          <span className="absolute left-3 top-3 rounded bg-pietra-black px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-white md:text-[10px]">
+          <span className="absolute left-3 top-3 rounded bg-pietra-ink px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white md:text-[11px]">
             {material.category}
           </span>
         </div>
 
         <div className="p-3 text-center md:p-4">
-          <h3 className="line-clamp-1 text-sm font-semibold text-pietra-black md:text-base">
+          <h3 className="line-clamp-1 text-sm font-semibold text-pietra-ink md:text-base">
             {material.name}
           </h3>
 
           {material.shortDescription ? (
-            <p className="mt-1 line-clamp-2 text-xs leading-5 text-pietra-muted md:mt-2 md:text-sm md:leading-6">
+            <p className="mt-1.5 line-clamp-2 text-[13px] leading-5 text-pietra-muted md:mt-2 md:text-sm md:leading-6">
               {material.shortDescription}
             </p>
           ) : null}
 
-          <span className="mt-3 flex h-9 items-center justify-center rounded bg-pietra-green text-[10px] font-bold uppercase tracking-[0.12em] text-white transition group-hover:bg-pietra-greenMuted md:mt-4 md:h-10 md:text-xs">
+          <span className="mt-3 flex min-h-10 items-center justify-center rounded bg-pietra-green px-3 text-[11px] font-bold uppercase tracking-[0.1em] text-white transition-colors group-hover:bg-[#3E5549] md:mt-4 md:min-h-11 md:text-xs">
             Ver material
           </span>
         </div>
