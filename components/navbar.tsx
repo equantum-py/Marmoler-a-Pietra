@@ -8,7 +8,7 @@ import { buildWhatsappUrl } from '@/lib/whatsapp';
 
 const menuLinks = [
   { label: 'Ambientes', href: '/#ambientes' },
-  { label: 'Materiales', href: '/#materiales' },
+  { label: 'Materiales', href: '/materiales' },
   { label: 'Proyectos', href: '/proyectos' },
 ];
 
