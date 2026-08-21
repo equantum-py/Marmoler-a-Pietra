@@ -29,7 +29,7 @@ export async function Categories() {
     <section
       id="ambientes"
       className="bg-pietra-background py-8 md:py-12"
-      aria-labelledby="ambientes-title"
+      aria-label="Ambientes"
     >
       <div className="luxe-container">
         <div className="mb-5 md:mb-7">
@@ -57,7 +57,7 @@ export async function Categories() {
                 target={href.startsWith('http') ? '_blank' : undefined}
                 rel={href.startsWith('http') ? 'noreferrer' : undefined}
                 aria-label={`Ver opciones de ${category.name}`}
-                className="group relative h-[152px] min-w-0 overflow-hidden rounded-xl border border-pietra-border bg-white shadow-card transition duration-300 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pietra-green sm:h-[170px] sm:w-[calc(50%-0.5rem)] md:w-[260px] lg:h-[180px] lg:w-[250px] xl:w-[270px]"
+                className="group relative h-[164px] min-w-0 overflow-hidden rounded-xl border border-pietra-border bg-white shadow-card transition duration-300 active:scale-[0.99] hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pietra-green sm:h-[174px] sm:w-[calc(50%-0.5rem)] md:w-[260px] lg:h-[180px] lg:w-[250px] xl:w-[270px]"
               >
                 <Image
                   src={image}
@@ -69,16 +69,16 @@ export async function Categories() {
                 />
 
                 <div
-                  className="absolute inset-0 bg-gradient-to-t from-pietra-ink/95 via-pietra-ink/40 to-transparent"
+                  className="absolute inset-0 bg-gradient-to-t from-pietra-ink/95 via-pietra-ink/45 to-transparent"
                   aria-hidden="true"
                 />
 
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white md:p-5">
-                  <p className="mb-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-white md:text-xs">
+                  <p className="mb-1 text-xs font-extrabold uppercase tracking-[0.12em] text-white">
                     Ambiente
                   </p>
 
-                  <h3 className="text-base font-extrabold uppercase leading-tight md:text-lg">
+                  <h3 className="text-[17px] font-extrabold uppercase leading-tight md:text-lg">
                     {category.name}
                   </h3>
 
