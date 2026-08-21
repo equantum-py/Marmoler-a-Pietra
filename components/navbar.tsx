@@ -57,12 +57,23 @@ export function Navbar() {
     });
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [open]);
+
   return (
     <header className="sticky top-0 z-40 border-b border-pietra-border bg-white/95 backdrop-blur-xl">
-      <div className="luxe-container relative flex h-[78px] items-center justify-between gap-5 lg:h-[92px]">
+      <div className="luxe-container relative flex h-[72px] items-center justify-between gap-3 sm:h-[78px] sm:gap-5 lg:h-[92px]">
         <Link
           href="/#inicio"
-          className="relative block h-[56px] w-[194px] shrink-0 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pietra-green md:h-[62px] md:w-[236px] lg:h-[66px] lg:w-[266px]"
+          className="relative block h-[50px] w-[174px] shrink-0 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pietra-green sm:h-[56px] sm:w-[194px] md:h-[62px] md:w-[236px] lg:h-[66px] lg:w-[266px]"
           aria-label="Ir al inicio de Marmolería Pietra"
         >
           <Image
@@ -72,7 +83,7 @@ export function Navbar() {
             priority
             unoptimized
             className="object-contain object-left"
-            sizes="(min-width: 1024px) 266px, (min-width: 768px) 236px, 194px"
+            sizes="(min-width: 1024px) 266px, (min-width: 768px) 236px, (min-width: 640px) 194px, 174px"
           />
         </Link>
 
@@ -107,7 +118,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-md border border-pietra-border bg-white text-pietra-green transition-colors hover:border-pietra-green hover:bg-pietra-background focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pietra-green lg:hidden"
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-pietra-border bg-white text-pietra-green transition-colors hover:border-pietra-green hover:bg-pietra-background focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-pietra-green sm:h-12 sm:w-12 lg:hidden"
           onClick={() => setOpen((value) => !value)}
           aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={open}
@@ -124,7 +135,7 @@ export function Navbar() {
           <nav
             id="mobile-navigation"
             aria-label="Navegación móvil"
-            className="absolute left-0 right-0 top-full z-50 border-t border-pietra-border bg-white p-4 shadow-card lg:hidden"
+            className="absolute left-[-0.75rem] right-[-0.75rem] top-full z-50 max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-pietra-border bg-white px-3 pb-[max(1rem,env(safe-area-inset-bottom))] pt-2 shadow-card sm:left-0 sm:right-0 sm:max-h-[calc(100dvh-78px)] sm:p-4"
           >
             <div className="flex flex-col">
               {menuLinks.map((link, index) => (
