@@ -26,7 +26,11 @@ export async function Categories() {
   });
 
   return (
-    <section id="ambientes" className="bg-pietra-background py-8 md:py-12" aria-labelledby="ambientes-title">
+    <section
+      id="ambientes"
+      className="bg-pietra-background py-8 md:py-12"
+      aria-labelledby="ambientes-title"
+    >
       <div className="luxe-container">
         <div className="mb-5 md:mb-7">
           <SectionHeading title="Inspiración real para decidir mejor.">
@@ -53,7 +57,7 @@ export async function Categories() {
                 target={href.startsWith('http') ? '_blank' : undefined}
                 rel={href.startsWith('http') ? 'noreferrer' : undefined}
                 aria-label={`Ver opciones de ${category.name}`}
-                className="group relative h-[152px] min-w-0 overflow-hidden rounded-xl border border-pietra-border bg-white shadow-card transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-pietra-green sm:h-[170px] sm:w-[calc(50%-0.5rem)] md:w-[260px] lg:h-[180px] lg:w-[250px] xl:w-[270px]"
+                className="group relative h-[152px] min-w-0 overflow-hidden rounded-xl border border-pietra-border bg-white shadow-card transition duration-300 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pietra-green sm:h-[170px] sm:w-[calc(50%-0.5rem)] md:w-[260px] lg:h-[180px] lg:w-[250px] xl:w-[270px]"
               >
                 <Image
                   src={image}
@@ -64,10 +68,13 @@ export async function Categories() {
                   sizes="(min-width: 1280px) 270px, (min-width: 1024px) 250px, (min-width: 768px) 260px, 50vw"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-pietra-ink/90 via-pietra-ink/35 to-transparent" aria-hidden="true" />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-pietra-ink/95 via-pietra-ink/40 to-transparent"
+                  aria-hidden="true"
+                />
 
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white md:p-5">
-                  <p className="mb-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-white/90">
+                  <p className="mb-1 text-[11px] font-extrabold uppercase tracking-[0.14em] text-white md:text-xs">
                     Ambiente
                   </p>
 
@@ -75,7 +82,7 @@ export async function Categories() {
                     {category.name}
                   </h3>
 
-                  <p className="mt-1 flex items-center gap-1 text-xs font-semibold text-white">
+                  <p className="mt-1.5 flex items-center gap-1.5 text-[13px] font-semibold text-white md:text-sm">
                     Ver opciones <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
                   </p>
                 </div>
