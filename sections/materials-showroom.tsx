@@ -21,10 +21,10 @@ function HomeMaterialCard({ material }: { material: HomeMaterial }) {
     <article className="group overflow-hidden rounded-xl border border-pietra-border bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
       <Link
         href={`/materiales/${material.slug}`}
-        className="block h-full focus:outline-none focus:ring-2 focus:ring-pietra-green"
+        className="block h-full rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-pietra-green"
         aria-label={`Ver material ${material.name}`}
       >
-        <div className="relative h-32 overflow-hidden bg-pietra-warm sm:h-44 lg:h-52">
+        <div className="relative h-36 overflow-hidden bg-pietra-warm sm:h-44 lg:h-52">
           {image ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -36,23 +36,23 @@ function HomeMaterialCard({ material }: { material: HomeMaterial }) {
             <div className="h-full w-full bg-gradient-to-br from-pietra-border to-pietra-warm" />
           )}
 
-          <span className="absolute left-2 top-2 rounded bg-pietra-black px-2 py-1 text-[8px] font-bold uppercase tracking-[0.12em] text-white sm:left-3 sm:top-3 sm:text-[10px]">
+          <span className="absolute left-2.5 top-2.5 rounded bg-pietra-black px-2 py-1 text-[9px] font-bold uppercase tracking-[0.1em] text-white sm:left-3 sm:top-3 sm:text-[10px]">
             {material.category}
           </span>
         </div>
 
-        <div className="p-3 text-center sm:p-4">
-          <h3 className="line-clamp-1 text-[13px] font-semibold leading-tight text-pietra-black sm:text-base">
+        <div className="p-3.5 text-center sm:p-4">
+          <h3 className="line-clamp-2 min-h-[34px] text-sm font-semibold leading-[1.2] text-pietra-black sm:min-h-0 sm:text-base">
             {material.name}
           </h3>
 
           {material.shortDescription ? (
-            <p className="mt-1 line-clamp-2 min-h-[34px] text-[11px] leading-4 text-pietra-muted sm:mt-2 sm:text-sm sm:leading-6">
+            <p className="mt-1.5 line-clamp-2 min-h-[36px] text-xs leading-[1.45] text-pietra-muted sm:mt-2 sm:text-sm sm:leading-6">
               {material.shortDescription}
             </p>
           ) : null}
 
-          <span className="mt-3 flex h-8 items-center justify-center rounded bg-pietra-green text-[9px] font-bold uppercase tracking-[0.1em] text-white transition group-hover:bg-pietra-greenMuted sm:h-10 sm:text-xs">
+          <span className="mt-3 flex min-h-10 items-center justify-center rounded bg-pietra-green px-2 text-[10px] font-bold uppercase tracking-[0.08em] text-white transition group-hover:bg-[#3E5549] sm:text-xs">
             Ver material
           </span>
         </div>
@@ -69,7 +69,6 @@ function MaterialSidePromotion({ promotion }: { promotion?: HomePromotion }) {
 
   return (
     <>
-      {/* DESKTOP: video lateral derecho */}
       <div className="hidden min-h-[420px] overflow-hidden rounded-[1.75rem] border border-pietra-border bg-pietra-warm shadow-sm lg:relative lg:block">
         {isVideo ? (
           <video
@@ -105,17 +104,16 @@ function MaterialSidePromotion({ promotion }: { promotion?: HomePromotion }) {
 
           <WhatsappLink
             message="Hola Pietra, quiero cotizar una cocina a medida con superficie premium."
-            className="mt-7 !bg-pietra-green px-6 py-3 !text-white hover:!bg-pietra-sage"
+            className="mt-7 !bg-pietra-green px-6 py-3 !text-white hover:!bg-[#3E5549]"
           >
             Cotizar proyecto
           </WhatsappLink>
         </div>
       </div>
 
-      {/* MOBILE: video debajo de la colección */}
       {desktopMediaUrl ? (
         <div className="relative mt-6 overflow-hidden rounded-2xl border border-pietra-border bg-pietra-warm shadow-sm lg:hidden">
-          <div className="relative aspect-[860/520] w-full overflow-hidden">
+          <div className="relative aspect-[860/560] w-full overflow-hidden">
             {isVideo ? (
               <video
                 src={mobileMediaUrl}
@@ -135,20 +133,20 @@ function MaterialSidePromotion({ promotion }: { promotion?: HomePromotion }) {
               />
             )}
 
-            <div className="absolute inset-0 bg-gradient-to-t from-pietra-black/80 via-pietra-black/25 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-pietra-black/85 via-pietra-black/30 to-transparent" />
 
             <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-              <p className="mb-2 text-[9px] font-bold uppercase tracking-[0.22em] text-pietra-warm">
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-pietra-warm">
                 Proyecto a medida
               </p>
 
-              <h3 className="max-w-[260px] font-display text-2xl leading-none">
+              <h3 className="max-w-[290px] font-display text-[26px] leading-[1.05]">
                 Cocinas a medida con superficies premium.
               </h3>
 
               <WhatsappLink
                 message="Hola Pietra, quiero cotizar una cocina a medida con superficie premium."
-                className="mt-4 w-full justify-center !bg-pietra-green px-5 py-3 text-xs !text-white hover:!bg-pietra-sage"
+                className="mt-4 w-full justify-center !bg-pietra-green px-5 py-3 text-sm !text-white hover:!bg-[#3E5549]"
               >
                 Cotizar proyecto
               </WhatsappLink>
@@ -186,13 +184,13 @@ export async function MaterialsShowroom() {
 
           <WhatsappLink
             message="Hola Pietra, quiero asesoramiento para elegir un material para mi proyecto."
-            className="w-full justify-center px-5 py-3 text-xs sm:w-fit sm:text-sm"
+            className="w-full justify-center px-5 py-3 text-sm sm:w-fit"
           >
             Asesoramiento por WhatsApp
           </WhatsappLink>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3.5 sm:gap-5 lg:grid-cols-4">
           {primaryMaterials.map((material) => (
             <HomeMaterialCard key={material.slug} material={material} />
           ))}
@@ -209,14 +207,14 @@ export async function MaterialsShowroom() {
 
                   <Link
                     href="/#materiales"
-                    className="hidden items-center gap-1 text-xs font-bold uppercase tracking-[0.12em] text-pietra-green md:flex"
+                    className="hidden items-center gap-1 rounded-sm text-xs font-bold uppercase tracking-[0.12em] text-pietra-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-pietra-green md:flex"
                   >
-                    Ver catálogo <ArrowRight className="h-3.5 w-3.5" />
+                    Ver catálogo <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
                   </Link>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 sm:gap-5 xl:grid-cols-3">
+              <div className="grid grid-cols-2 gap-3.5 sm:gap-5 xl:grid-cols-3">
                 {secondaryMaterials.map((material) => (
                   <HomeMaterialCard key={material.slug} material={material} />
                 ))}
@@ -227,18 +225,18 @@ export async function MaterialsShowroom() {
           </div>
         ) : null}
 
-        <div className="mt-8 rounded-2xl border border-pietra-border bg-pietra-background p-4 text-center md:hidden">
-          <p className="font-display text-xl text-pietra-ink">
+        <div className="mt-8 rounded-2xl border border-pietra-border bg-pietra-background p-5 text-center md:hidden">
+          <p className="font-display text-[22px] leading-tight text-pietra-ink">
             ¿Querés saber qué material conviene para tu espacio?
           </p>
 
-          <p className="mt-2 text-xs leading-5 text-pietra-muted">
+          <p className="mt-2 text-sm leading-6 text-pietra-muted">
             Te asesoramos por WhatsApp según medidas, color y uso.
           </p>
 
           <WhatsappLink
             message="Hola Pietra, quiero asesoramiento para elegir el material ideal para mi espacio."
-            className="mt-4 w-full justify-center px-5 py-3 text-xs"
+            className="mt-4 w-full justify-center px-5 py-3 text-sm"
           >
             Cotizar por WhatsApp
           </WhatsappLink>
