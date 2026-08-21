@@ -16,6 +16,12 @@ type AnalyticsEvent = {
   metadata?: Record<string, unknown>;
 };
 
+declare global {
+  interface Window {
+    dataLayer?: Array<Record<string, unknown>>;
+  }
+}
+
 function shouldTrackPath(pathname: string) {
   if (!pathname) return false;
 
@@ -73,6 +79,20 @@ function getReferrer() {
   }
 }
 
+function pushToDataLayer(event: AnalyticsEvent) {
+  if (typeof window === 'undefined') return;
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: event.event_type,
+    page_path: event.page_path,
+    page_title: event.page_title,
+    element_label: event.element_label,
+    element_href: event.element_href,
+    ...event.metadata,
+  });
+}
+
 function sendAnalyticsEvent(event: AnalyticsEvent) {
   if (typeof window === 'undefined') return;
 
@@ -83,6 +103,8 @@ function sendAnalyticsEvent(event: AnalyticsEvent) {
     session_id: event.session_id || getOrCreateStorageId('pietra_session_id'),
     referrer: event.referrer || getReferrer(),
   };
+
+  pushToDataLayer(payload);
 
   fetch('/api/analytics', {
     method: 'POST',
@@ -124,6 +146,19 @@ export function AnalyticsTracker() {
       page_path: fullPath,
       page_title: document.title,
     });
+
+    const materialMatch = pathname.match(/^\/materiales\/([^/]+)$/);
+
+    if (materialMatch) {
+      sendAnalyticsEvent({
+        event_type: 'material_view',
+        page_path: fullPath,
+        page_title: document.title,
+        metadata: {
+          material_slug: decodeURIComponent(materialMatch[1]),
+        },
+      });
+    }
   }, [pathname]);
 
   useEffect(() => {
@@ -143,6 +178,9 @@ export function AnalyticsTracker() {
         page_title: document.title,
         element_label: getClickableLabel(link),
         element_href: link.href,
+        metadata: {
+          conversion_type: 'whatsapp_lead',
+        },
       });
     }
 
