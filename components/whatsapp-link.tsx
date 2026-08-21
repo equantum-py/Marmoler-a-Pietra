@@ -15,10 +15,10 @@ export async function WhatsappLink({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-pietra-green px-5 py-3 text-sm font-bold text-white shadow-soft transition duration-300 hover:bg-pietra-sage ${className}`}
+      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-pietra-green px-5 py-3 text-sm font-bold text-white shadow-soft transition-colors duration-300 hover:bg-[#3E5549] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pietra-green ${className}`}
       {...props}
     >
-      <WhatsappIcon className="h-4 w-4 shrink-0" />
+      <WhatsappIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
       {children}
     </a>
   );
