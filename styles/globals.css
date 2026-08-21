@@ -76,9 +76,11 @@ img {
   box-shadow: 0 0 0 3px rgba(74, 99, 86, 0.12);
 }
 
-/* HOME HERO */
+/* HOME BANNER CLEAN RESPONSIVE SYSTEM */
 .home-banner-section {
   width: 100%;
+  margin: 0;
+  padding: 0;
   background: #f8f6f1;
   overflow-x: hidden;
 }
@@ -86,11 +88,13 @@ img {
 .home-banner {
   position: relative;
   width: 100%;
+  margin: 0 auto;
   overflow: hidden;
-  background: #1f1f1c;
-  min-height: clamp(500px, 56vw, 680px);
+  background: #fff;
+  aspect-ratio: 1600 / 600;
 }
 
+.home-banner-link,
 .home-banner-picture {
   position: absolute;
   inset: 0;
@@ -104,55 +108,56 @@ img {
   width: 100%;
   height: 100%;
   max-width: none;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center center;
-}
-
-.home-banner-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(20, 22, 20, 0.78) 0%,
-    rgba(20, 22, 20, 0.48) 52%,
-    rgba(20, 22, 20, 0.12) 100%
-  );
-}
-
-.home-hero-content {
-  position: relative;
-  z-index: 1;
-  width: min(100% - 2rem, 1180px);
-  min-height: inherit;
-  margin-inline: auto;
-  padding-block: clamp(3rem, 8vw, 6rem);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  position: static;
+  margin: 0;
+  padding: 0;
 }
 
 @media (max-width: 767px) {
-  .home-banner {
-    min-height: min(650px, calc(100svh - 72px));
+  .home-banner-section {
+    width: 100%;
+    padding: 0;
+    margin: 0;
   }
 
-  .home-banner-overlay {
-    background: linear-gradient(
-      180deg,
-      rgba(20, 22, 20, 0.18) 0%,
-      rgba(20, 22, 20, 0.74) 52%,
-      rgba(20, 22, 20, 0.88) 100%
-    );
+  .home-banner {
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 860 / 500;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .home-banner-link,
+  .home-banner-picture {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .home-banner-image {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: contain;
     object-position: center center;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-banner-section {
+    padding: 20px 32px;
   }
 
-  .home-hero-content {
-    justify-content: flex-end;
-    padding-top: 5rem;
-    padding-bottom: 2rem;
+  .home-banner {
+    max-width: 1440px;
+    border: 1px solid var(--pietra-border, #e8dfd4);
+    box-shadow: 0 18px 45px rgba(54, 46, 38, 0.08);
   }
 }
 
